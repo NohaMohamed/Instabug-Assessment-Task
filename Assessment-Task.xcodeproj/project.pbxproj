@@ -14,6 +14,10 @@
 		D0A352742216E7DF00385D1D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0A352722216E7DF00385D1D /* LaunchScreen.storyboard */; };
 		D0A3527F2216E7DF00385D1D /* Assessment_TaskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3527E2216E7DF00385D1D /* Assessment_TaskTests.swift */; };
 		D0A3528A2216E7DF00385D1D /* Assessment_TaskUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A352892216E7DF00385D1D /* Assessment_TaskUITests.swift */; };
+		D0A352992217018500385D1D /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A352982217018500385D1D /* APIClient.swift */; };
+		D0A3529B221702A000385D1D /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3529A221702A000385D1D /* HTTPRequest.swift */; };
+		D0A3529F22172BD700385D1D /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3529E22172BD700385D1D /* Network.swift */; };
+		D0A352A1221740E200385D1D /* MoviesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A352A0221740E200385D1D /* MoviesRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +51,10 @@
 		D0A352852216E7DF00385D1D /* Assessment-TaskUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Assessment-TaskUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A352892216E7DF00385D1D /* Assessment_TaskUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assessment_TaskUITests.swift; sourceTree = "<group>"; };
 		D0A3528B2216E7DF00385D1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D0A352982217018500385D1D /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		D0A3529A221702A000385D1D /* HTTPRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
+		D0A3529E22172BD700385D1D /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		D0A352A0221740E200385D1D /* MoviesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +105,7 @@
 		D0A352682216E7DD00385D1D /* Assessment-Task */ = {
 			isa = PBXGroup;
 			children = (
+				D0A352972216F3C100385D1D /* NetworkLayer */,
 				D0A352692216E7DD00385D1D /* AppDelegate.swift */,
 				D0A3526B2216E7DD00385D1D /* ViewController.swift */,
 				D0A3526D2216E7DD00385D1D /* Main.storyboard */,
@@ -123,6 +132,17 @@
 				D0A3528B2216E7DF00385D1D /* Info.plist */,
 			);
 			path = "Assessment-TaskUITests";
+			sourceTree = "<group>";
+		};
+		D0A352972216F3C100385D1D /* NetworkLayer */ = {
+			isa = PBXGroup;
+			children = (
+				D0A352982217018500385D1D /* APIClient.swift */,
+				D0A3529A221702A000385D1D /* HTTPRequest.swift */,
+				D0A3529E22172BD700385D1D /* Network.swift */,
+				D0A352A0221740E200385D1D /* MoviesRequest.swift */,
+			);
+			path = NetworkLayer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,7 +277,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0A3526C2216E7DD00385D1D /* ViewController.swift in Sources */,
+				D0A3529B221702A000385D1D /* HTTPRequest.swift in Sources */,
+				D0A352A1221740E200385D1D /* MoviesRequest.swift in Sources */,
 				D0A3526A2216E7DD00385D1D /* AppDelegate.swift in Sources */,
+				D0A3529F22172BD700385D1D /* Network.swift in Sources */,
+				D0A352992217018500385D1D /* APIClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,7 +456,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "Assessment-Task/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -440,6 +465,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Instabug.Assessment-Task";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -449,7 +475,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "Assessment-Task/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -457,6 +484,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Instabug.Assessment-Task";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
