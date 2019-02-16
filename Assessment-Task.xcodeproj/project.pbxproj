@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D075857D2218507F00E01D62 /* DataResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075857C2218507F00E01D62 /* DataResponseError.swift */; };
 		D0A3526A2216E7DD00385D1D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A352692216E7DD00385D1D /* AppDelegate.swift */; };
 		D0A3526C2216E7DD00385D1D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3526B2216E7DD00385D1D /* ViewController.swift */; };
 		D0A3526F2216E7DD00385D1D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0A3526D2216E7DD00385D1D /* Main.storyboard */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D075857C2218507F00E01D62 /* DataResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataResponseError.swift; sourceTree = "<group>"; };
 		D0A352662216E7DD00385D1D /* Assessment-Task.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Assessment-Task.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A352692216E7DD00385D1D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0A3526B2216E7DD00385D1D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				D0A352982217018500385D1D /* APIClient.swift */,
 				D0A3529A221702A000385D1D /* HTTPRequest.swift */,
 				D0A3529E22172BD700385D1D /* Network.swift */,
+				D075857C2218507F00E01D62 /* DataResponseError.swift */,
 			);
 			path = NetworkLayer;
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 				D0A352AE221782F700385D1D /* FetchMoviesUseCase.swift in Sources */,
 				D0A352A1221740E200385D1D /* MoviesRequest.swift in Sources */,
 				D0A352B02217834600385D1D /* MoviesListRouter.swift in Sources */,
+				D075857D2218507F00E01D62 /* DataResponseError.swift in Sources */,
 				D0A3526A2216E7DD00385D1D /* AppDelegate.swift in Sources */,
 				D0A3529F22172BD700385D1D /* Network.swift in Sources */,
 				D0A352992217018500385D1D /* APIClient.swift in Sources */,
