@@ -5,23 +5,30 @@
 //  Created by Noha  on 2/16/19.
 //  Copyright © 2019 Noha . All rights reserved.
 //
-
+import Foundation
 
 protocol BaseUseCase {
-    
-    var successHandler: Success? { get set }
     func execute(success: @escaping Success)
 }
 
 class FetchMoviesUseCase: BaseUseCase {
-    var successHandler: Success?
+    private var isFetchInProgress = false
+    private var toBeLoadedPage = 0
     
+    func setPageNumber(_ page: Int) {
+        self.toBeLoadedPage = page
+    }
     func execute(success: @escaping Success) {
-        successHandler = success
+        guard !isFetchInProgress else {
+            return
+        }
+        isFetchInProgress = true
         let apiClient = MoviesAPIClient()
         apiClient.getNewMovies(page: 1, success: { (model) in
+                self.isFetchInProgress = false
+            success(model as! MovieApiResponse)
             print(model as! MovieApiResponse)
         }) { (errot) in
-            
+                self.isFetchInProgress = false
         }}
     }
