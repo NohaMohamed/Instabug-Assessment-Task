@@ -50,6 +50,9 @@ struct MoviesAPIClient {
             }
         }
     }
+    func getMoviemage(_ imageURL: String)  {
+        
+    }
     fileprivate func handleNetworkResponse(_ response: HTTPURLResponse) -> Result<String>{
         switch response.statusCode {
         case 200...299: return .success

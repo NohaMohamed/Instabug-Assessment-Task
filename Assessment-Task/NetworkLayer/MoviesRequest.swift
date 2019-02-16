@@ -10,6 +10,7 @@ import UIKit
 
 public enum MovieRequest {
     case fetchMovies(page:Int)
+    case fetccMovieImage(_ imageURL: String)
 }
 
 extension MovieRequest: RequestData {
@@ -23,6 +24,7 @@ extension MovieRequest: RequestData {
         switch self {
         case .fetchMovies(let page):
             return ""
+        default : return ""
         }
     }
     

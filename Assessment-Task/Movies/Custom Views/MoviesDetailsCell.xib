@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MoviesDetailsCell" id="0M1-sd-Xh5" customClass="MoviesDetailsCell" customModule="Assessment_Task" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0M1-sd-Xh5" id="KXB-ch-fhH" userLabel="View">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TUw-yV-QFw" customClass="MovieDetailsCustomView" customModule="Assessment_Task" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="TUw-yV-QFw" secondAttribute="trailing" id="5Ke-Kh-hsZ"/>
+                    <constraint firstItem="TUw-yV-QFw" firstAttribute="top" secondItem="KXB-ch-fhH" secondAttribute="top" id="UAd-Ro-aQw"/>
+                    <constraint firstItem="TUw-yV-QFw" firstAttribute="leading" secondItem="KXB-ch-fhH" secondAttribute="leading" id="d2i-3y-Lcw"/>
+                    <constraint firstAttribute="bottom" secondItem="TUw-yV-QFw" secondAttribute="bottom" id="hHd-VS-zHK"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="moviesDetailsView" destination="TUw-yV-QFw" id="8ub-CT-SpU"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>
