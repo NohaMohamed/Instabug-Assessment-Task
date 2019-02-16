@@ -1,10 +1,11 @@
 //
-//  APIClient.swift
+//  MoviesAPIClient.swift
 //  Assessment-Task
 //
-//  Created by Noha  on 2/15/19.
+//  Created by Noha  on 2/16/19.
 //  Copyright © 2019 Noha . All rights reserved.
 //
+
 import Foundation
 
 typealias Success = () -> Void
@@ -15,7 +16,7 @@ enum Result<String>{
     case failure(String)
 }
 
-struct APIClient {
+struct MoviesAPIClient {
     let network = NetworkLayer()
     func getNewMovies(page: Int, completion: @escaping (_ movie: [Movie]?,_ error: String?)->()){
         let moviesRequestData = MovieRequest.fetchMovies(page: page)
@@ -30,7 +31,7 @@ struct APIClient {
                 switch result {
                 case .success:
                     guard let responseData = data else {
-//                        completion(nil, NetworkResponse.noData.rawValue)
+                        //                        completion(nil, NetworkResponse.noData.rawValue)
                         return
                     }
                     do {
@@ -41,7 +42,7 @@ struct APIClient {
                         completion(apiResponse.movies,nil)
                     }catch {
                         print(error)
-//                        completion(nil, NetworkResponse.unableToDecode.rawValue)
+                        //                        completion(nil, NetworkResponse.unableToDecode.rawValue)
                     }
                 case .failure(let networkFailureError):
                     completion(nil, networkFailureError)

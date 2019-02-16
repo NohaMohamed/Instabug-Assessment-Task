@@ -18,7 +18,7 @@ class FetchMoviesUseCase: BaseUseCase {
     
     func execute(success: @escaping Success) {
         successHandler = success
-        let apiClient = APIClient()
+        let apiClient = MoviesAPIClient()
         apiClient.getNewMovies(page: 1) { (movies, nil) in
             print(movies! ?? "")
         }
