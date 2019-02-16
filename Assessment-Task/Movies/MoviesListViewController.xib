@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MoviesListViewController" customModule="Assessment_Task" customModuleProvider="target">
             <connections>
                 <outlet property="moviesTableView" destination="dQI-eL-4es" id="HHV-VL-dsj"/>
+                <outlet property="view" destination="dQI-eL-4es" id="seC-qe-uQy"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

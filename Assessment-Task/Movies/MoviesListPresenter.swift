@@ -21,7 +21,6 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
     private var router: MoviesListRouter?
     
     func viewWillAppear() {
-        fetchMoviesUseCase = FetchMoviesUseCase()
         fetchMoviesUseCase.execute {
             
         }
