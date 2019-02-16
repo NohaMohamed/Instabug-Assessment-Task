@@ -8,7 +8,7 @@
 
 import Foundation
 
-typealias Success = () -> Void
+typealias Success = (Decodable) -> Void
 typealias Failure = (Error?) -> Void
 
 enum Result<String>{
@@ -18,12 +18,11 @@ enum Result<String>{
 
 struct MoviesAPIClient {
     let network = NetworkLayer()
-    func getNewMovies(page: Int, completion: @escaping (_ movie: [Movie]?,_ error: String?)->()){
+    func getNewMovies(page: Int, success: @escaping Success, failure: @escaping Failure){
         let moviesRequestData = MovieRequest.fetchMovies(page: page)
         network.request(moviesRequestData) { data, response, error in
             
             if error != nil {
-                completion(nil, "Please check your network connection.")
             }
             
             if let response = response as? HTTPURLResponse {
@@ -39,13 +38,13 @@ struct MoviesAPIClient {
                         let jsonData = try JSONSerialization.jsonObject(with: responseData, options: .mutableContainers)
                         print(jsonData)
                         let apiResponse = try JSONDecoder().decode(MovieApiResponse.self, from: responseData)
-                        completion(apiResponse.movies,nil)
+                        success(apiResponse)
                     }catch {
                         print(error)
                         //                        completion(nil, NetworkResponse.unableToDecode.rawValue)
                     }
                 case .failure(let networkFailureError):
-                    completion(nil, networkFailureError)
+                    failure(networkFailureError as! Error)
                 }
             }
         }

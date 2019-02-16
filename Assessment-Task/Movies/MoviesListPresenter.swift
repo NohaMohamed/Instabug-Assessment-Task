@@ -14,15 +14,24 @@ protocol MoviesListPresenter {
 protocol MoviesListPresenterView: class {
     func showLoading()
     func hideLoading()
+    func configureMovies(_ movies: [Movie])
 }
 class MoviesListPresenterImplementation : MoviesListPresenter {
+    
+    //MARK-: Properties
+    
     fileprivate weak var view: MoviesListPresenterView?
     private var fetchMoviesUseCase: FetchMoviesUseCase
     private var router: MoviesListRouter?
+    private var isFetchInProgress: Bool = false
     
     func viewWillAppear() {
-        fetchMoviesUseCase.execute {
-            
+        guard !isFetchInProgress else {
+            return
+        }
+        
+        fetchMoviesUseCase.execute { allMovies in
+            self.view?.configureMovies(allMovies as! [Movie])
         }
     }
     init(view: MoviesListPresenterView,

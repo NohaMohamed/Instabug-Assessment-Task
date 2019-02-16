@@ -22,12 +22,20 @@ class MoviesListViewController: UIViewController {
 
     //MARK- Outlets
     @IBOutlet private weak var moviesTableView: UITableView!
+    
+    //MARK- Properties
     var presenter: MoviesListPresenter?
     let configurator = MoviesListConfigurator()
+    var allMovies : [Movie]? {
+        didSet{
+            self.moviesTableView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        configurator.configure(moviesListViewController: self)
+        configurator.configure(moviesListViewController: self)
         moviesTableView.delegate = self
         moviesTableView.dataSource = self
         let cellNib = UINib(nibName: "MoviesDetailsCell", bundle: nil)
@@ -46,7 +54,9 @@ extension MoviesListViewController: MoviesListPresenterView {
     
     func hideLoading() {
     }
-    
+    func configureMovies(_ movies: [Movie]) {
+        allMovies = movies
+    }
     
 }
 extension MoviesListViewController:  UITableViewDataSource,UITableViewDelegate {
