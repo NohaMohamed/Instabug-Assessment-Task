@@ -21,6 +21,10 @@
 		D0A352A42217617E00385D1D /* MoviesListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0A352A32217617E00385D1D /* MoviesListViewController.xib */; };
 		D0A352A62217624300385D1D /* MoviesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A352A52217624300385D1D /* MoviesListViewController.swift */; };
 		D0A352A82217628800385D1D /* MoviesListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A352A72217628800385D1D /* MoviesListPresenter.swift */; };
+		D0A352AB22177CC300385D1D /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A352AA22177CC300385D1D /* Reusable.swift */; };
+		D0A352AE221782F700385D1D /* FetchMoviesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A352AD221782F700385D1D /* FetchMoviesUseCase.swift */; };
+		D0A352B02217834600385D1D /* MoviesListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A352AF2217834600385D1D /* MoviesListRouter.swift */; };
+		D0A352B222178AB400385D1D /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A352B122178AB400385D1D /* Movie.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +65,10 @@
 		D0A352A32217617E00385D1D /* MoviesListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MoviesListViewController.xib; sourceTree = "<group>"; };
 		D0A352A52217624300385D1D /* MoviesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListViewController.swift; sourceTree = "<group>"; };
 		D0A352A72217628800385D1D /* MoviesListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListPresenter.swift; sourceTree = "<group>"; };
+		D0A352AA22177CC300385D1D /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
+		D0A352AD221782F700385D1D /* FetchMoviesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchMoviesUseCase.swift; sourceTree = "<group>"; };
+		D0A352AF2217834600385D1D /* MoviesListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListRouter.swift; sourceTree = "<group>"; };
+		D0A352B122178AB400385D1D /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +119,7 @@
 		D0A352682216E7DD00385D1D /* Assessment-Task */ = {
 			isa = PBXGroup;
 			children = (
+				D0A352A922177CB400385D1D /* UI */,
 				D0A352A22217614300385D1D /* Movies */,
 				D0A352972216F3C100385D1D /* NetworkLayer */,
 				D0A352692216E7DD00385D1D /* AppDelegate.swift */,
@@ -144,10 +153,10 @@
 		D0A352972216F3C100385D1D /* NetworkLayer */ = {
 			isa = PBXGroup;
 			children = (
+				D0A352A0221740E200385D1D /* MoviesRequest.swift */,
 				D0A352982217018500385D1D /* APIClient.swift */,
 				D0A3529A221702A000385D1D /* HTTPRequest.swift */,
 				D0A3529E22172BD700385D1D /* Network.swift */,
-				D0A352A0221740E200385D1D /* MoviesRequest.swift */,
 			);
 			path = NetworkLayer;
 			sourceTree = "<group>";
@@ -155,11 +164,30 @@
 		D0A352A22217614300385D1D /* Movies */ = {
 			isa = PBXGroup;
 			children = (
+				D0A352AC22177D5300385D1D /* Custom Views */,
 				D0A352A32217617E00385D1D /* MoviesListViewController.xib */,
 				D0A352A52217624300385D1D /* MoviesListViewController.swift */,
 				D0A352A72217628800385D1D /* MoviesListPresenter.swift */,
+				D0A352AD221782F700385D1D /* FetchMoviesUseCase.swift */,
+				D0A352AF2217834600385D1D /* MoviesListRouter.swift */,
+				D0A352B122178AB400385D1D /* Movie.swift */,
 			);
 			path = Movies;
+			sourceTree = "<group>";
+		};
+		D0A352A922177CB400385D1D /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				D0A352AA22177CC300385D1D /* Reusable.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		D0A352AC22177D5300385D1D /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Custom Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -296,9 +324,13 @@
 			files = (
 				D0A352A62217624300385D1D /* MoviesListViewController.swift in Sources */,
 				D0A3526C2216E7DD00385D1D /* ViewController.swift in Sources */,
+				D0A352B222178AB400385D1D /* Movie.swift in Sources */,
 				D0A3529B221702A000385D1D /* HTTPRequest.swift in Sources */,
+				D0A352AB22177CC300385D1D /* Reusable.swift in Sources */,
 				D0A352A82217628800385D1D /* MoviesListPresenter.swift in Sources */,
+				D0A352AE221782F700385D1D /* FetchMoviesUseCase.swift in Sources */,
 				D0A352A1221740E200385D1D /* MoviesRequest.swift in Sources */,
+				D0A352B02217834600385D1D /* MoviesListRouter.swift in Sources */,
 				D0A3526A2216E7DD00385D1D /* AppDelegate.swift in Sources */,
 				D0A3529F22172BD700385D1D /* Network.swift in Sources */,
 				D0A352992217018500385D1D /* APIClient.swift in Sources */,

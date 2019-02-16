@@ -10,10 +10,18 @@ import UIKit
 
 class MoviesListViewController: UIViewController {
 
+    //MARK- Outlets
+    @IBOutlet private weak var moviesTableView: UITableView!
+    var presenter: MoviesListPresenter?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        presenter?.viewWillAppear()
     }
 
 }

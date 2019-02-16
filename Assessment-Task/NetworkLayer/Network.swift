@@ -17,7 +17,7 @@ protocol Network: class {
     func cancel()
 }
 
-class NetworkLayer<request: RequestData>: Network {
+class NetworkLayer: Network {
     private var task: URLSessionTask?
     
     func request(_ requestData: RequestData, completion: @escaping NetworkCompletion) {
@@ -45,16 +45,12 @@ class NetworkLayer<request: RequestData>: Network {
                                  timeoutInterval: 10.0)
         
 //        request.httpMethod = requestData.httpMethod.rawValue
-        do {
             if let requestDataParameters = requestData.parameters  {
                 try self.configureParameters(urlParameters: requestDataParameters, request: &request)
             }else {
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             }
             return request
-        } catch {
-            throw error
-        }
     }
     
     fileprivate func configureParameters(urlParameters: Parameters, request: inout URLRequest) throws {
