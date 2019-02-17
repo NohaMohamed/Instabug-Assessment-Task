@@ -51,6 +51,13 @@ class MoviesListViewController: UIViewController {
 
 }
 extension MoviesListViewController: MoviesListPresenterView {
+    func retu(image: UIImage, indexpath: IndexPath) {
+        if let updateCell = moviesTableView.cellForRow(at: indexpath) {
+            (updateCell as! MoviesDetailsCell).configureCell(image: image)
+            MoviesAPIClient.sharedClient.cache.setObject(image, forKey: (indexpath as NSIndexPath).row as AnyObject)
+        }
+    }
+    
     func showLoading() {
     }
     
@@ -71,6 +78,9 @@ extension MoviesListViewController: MoviesListPresenterView {
         let indexPathsToReload = visibleIndexPathsToReload(intersecting: newIndexPathsToReload)
         moviesTableView.reloadRows(at: indexPathsToReload, with: .automatic)
     }
+    func retu(image: UIImage) {
+        
+    }
     
     func onFetchFailed(with reason: String) {
        /* indicatorView.stopAnimating()
@@ -82,12 +92,16 @@ extension MoviesListViewController: MoviesListPresenterView {
 }
 extension MoviesListViewController:  UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allMovies?.count ?? 0
+        return allMovies == nil ? 0 : 10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MoviesDetailsCell", for: indexPath) as! MoviesDetailsCell
-        cell.configureCell(imageURL: allMovies![indexPath.row].posterPath)
+        if let img = MoviesAPIClient.sharedClient.cache.object(forKey: (indexPath as NSIndexPath).row as AnyObject) {
+            cell.configureCell(image: img as! UIImage)
+        }else{
+            presenter?.fun(url:  allMovies![indexPath.row].posterPath, indexPath: indexPath)
+        }
         return cell
     }
     

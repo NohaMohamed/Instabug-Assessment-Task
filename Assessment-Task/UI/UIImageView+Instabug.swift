@@ -8,12 +8,16 @@
 import UIKit
 
 extension UIImageView {
-    public func imageFromServerURL(url: String, imageCache: NSCache<AnyObject, AnyObject>){
+    public func imageFromServerURL(url: String){
+        let imageCache = MoviesAPIClient.sharedClient.cache
         if (imageCache.object(forKey: url as AnyObject) != nil) {
             self.image = imageCache.object(forKey: url as AnyObject) as? UIImage
         }else{
-            MoviesAPIClient.sharedClient.getMoviemage(url, success: { (_) in
-                
+            MoviesAPIClient.sharedClient.getMoviemage(url, success: { response in
+                DispatchQueue.main.async {
+                    self.image = UIImage(data: response)
+                    imageCache.setObject(self.image!, forKey: url as AnyObject)
+                }
             }) { (error) in
                 print("la2aaa")
             }

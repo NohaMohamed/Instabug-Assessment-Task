@@ -10,6 +10,7 @@ import UIKit
 protocol MoviesListPresenter {
     func viewWillAppear()
     func moviesCount() -> Int
+    func fun(url: String, indexPath: IndexPath)
     
 }
 
@@ -18,6 +19,7 @@ protocol MoviesListPresenterView: class {
     func hideLoading()
     func configureMovies(_ movies: [Movie])
     func onFetchCompleted(with newIndexPathsToReload: [IndexPath]?)
+    func retu(image: UIImage,indexpath: IndexPath)
 }
 class MoviesListPresenterImplementation : MoviesListPresenter {
     
@@ -62,5 +64,21 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
         let startIndex = movies.count - newMovies.count
         let endIndex = startIndex + newMovies.count
         return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
+    }
+    func fun(url: String, indexPath: IndexPath) {
+        let imageCache = MoviesAPIClient.sharedClient.cache
+        if (imageCache.object(forKey: (indexPath as NSIndexPath).row as AnyObject) != nil) {
+            let image = imageCache.object(forKey: (indexPath as NSIndexPath).row as AnyObject) as? UIImage
+            view?.retu(image: image!, indexpath: indexPath)
+        }else{
+            MoviesAPIClient.sharedClient.getMoviemage(url, success: { response in
+                DispatchQueue.main.async {
+                    let image = UIImage(data: response)
+                    self.view?.retu(image: image!, indexpath: indexPath)
+                }
+            }) { (error) in
+                print("la2aaa")
+            }
+        }
     }
 }

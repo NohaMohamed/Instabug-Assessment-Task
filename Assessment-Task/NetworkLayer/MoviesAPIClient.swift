@@ -10,6 +10,7 @@ import Foundation
 
 typealias Success = (Decodable) -> Void
 typealias Failure = (Error?) -> Void
+typealias SuccessDownload = (Data) -> Void
 
 enum Result<String>{
     case success
@@ -19,6 +20,7 @@ enum Result<String>{
 final class MoviesAPIClient {
     
     static let sharedClient = MoviesAPIClient()
+    let cache = NSCache<AnyObject, AnyObject>()
     private init() {
     }
     
@@ -54,9 +56,9 @@ final class MoviesAPIClient {
             }
         }
     }
-    func getMoviemage(_ imageURL: String,success: @escaping Success, failure: @escaping Failure)  {
+    func getMoviemage(_ imageURL: String,success: @escaping SuccessDownload, failure: @escaping Failure)  {
         let moviesRequestData = MovieRequest.fetchMovieImage(imageURL)
-        network.request(moviesRequestData) { data, response, error in
+        network.downloadRequest(moviesRequestData) { data, response, error in
             
             if error != nil {
             }
@@ -70,7 +72,7 @@ final class MoviesAPIClient {
                         return
                     }
                     do {
-                        success(data)
+                        success(responseData)
                     }catch {
                         print(error)
                         //                        completion(nil, NetworkResponse.unableToDecode.rawValue)

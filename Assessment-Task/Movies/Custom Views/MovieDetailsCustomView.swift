@@ -16,7 +16,6 @@ class MovieDetailsCustomView: UIView {
     
     @IBOutlet private weak var movieImage: UIImageView!
     @IBOutlet private var contentview: UIView!
-    var cache: NSCache<AnyObject, AnyObject>!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,9 +31,8 @@ class MovieDetailsCustomView: UIView {
         
         initializeView()
     }
-    func configureMoviesView(with imageURL: String){
-        cache = NSCache()
-        movieImage.imageFromServerURL(url: imageURL, imageCache: cache)
+    func configureMoviesView(with image: UIImage){
+        self.movieImage.image = image
     }
     func hey() {
         print("hey")

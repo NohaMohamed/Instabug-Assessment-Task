@@ -39,7 +39,7 @@ class NetworkLayer: Network {
     func downloadRequest(_ requestData: RequestData, completion: @escaping NetworkCompletion) {
         let session = URLSession.shared
         task = session.downloadTask(with: requestData.baseURL, completionHandler: { (url, response, error) in
-            if let data = try? Data(contentsOf: url!){
+            if let data = try? Data(contentsOf: requestData.baseURL){
                 completion(data, response, error)
             }
             else{
