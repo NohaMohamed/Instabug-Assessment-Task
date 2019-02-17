@@ -19,9 +19,10 @@
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TUw-yV-QFw" customClass="MovieDetailsCustomView" customModule="Assessment_Task" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="TUw-yV-QFw" secondAttribute="trailing" id="5Ke-Kh-hsZ"/>
                     <constraint firstItem="TUw-yV-QFw" firstAttribute="top" secondItem="KXB-ch-fhH" secondAttribute="top" id="UAd-Ro-aQw"/>

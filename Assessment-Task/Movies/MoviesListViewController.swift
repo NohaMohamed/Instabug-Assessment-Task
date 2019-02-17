@@ -51,18 +51,22 @@ class MoviesListViewController: UIViewController {
         moviesTableView.prefetchDataSource = self
         let cellNib = UINib(nibName: "MoviesDetailsCell", bundle: nil)
         moviesTableView.register(cellNib, forCellReuseIdentifier: "MoviesDetailsCell")
+        let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
+        navigationItem.rightBarButtonItem = addBarButton
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         presenter?.viewWillAppear()
     }
-
+    
+    @objc func add()   {
+    }
 }
 extension MoviesListViewController: MoviesListPresenterView {
     func retu(image: UIImage, indexpath: IndexPath) {
         if let updateCell = moviesTableView.cellForRow(at: indexpath) {
-            (updateCell as! MoviesDetailsCell).configureCell(image: image)
+            (updateCell as! MoviesDetailsCell).configureMovieImage(image: image)
             MoviesAPIClient.sharedClient.cache.setObject(image, forKey: (indexpath as NSIndexPath).row as AnyObject)
         }
     }
@@ -108,8 +112,10 @@ extension MoviesListViewController:  UITableViewDataSource,UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MoviesDetailsCell", for: indexPath) as! MoviesDetailsCell
+        let movieDetails = presenter?.mapMovieDetailsUIMode(allMovies![indexPath.row])
+        cell.configureCell(with: movieDetails ?? MovieDetailViewModel())
         if let img = MoviesAPIClient.sharedClient.cache.object(forKey: (indexPath as NSIndexPath).row as AnyObject) {
-            cell.configureCell(image: img as! UIImage)
+            cell.configureMovieImage(image: img as! UIImage)
         }else{
             presenter?.fun(url:  allMovies![indexPath.row].posterPath, indexPath: indexPath)
         }
@@ -120,10 +126,8 @@ extension MoviesListViewController:  UITableViewDataSource,UITableViewDelegate {
         return UITableView.automaticDimension
     }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let lastSectionIndex = tableView.numberOfSections - 1
-        let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
-        if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex {
-            // print("this is the last cell")
+        let lastRowIndex = tableView.numberOfRows(inSection: 0) - 1
+        if indexPath.row == lastRowIndex {
             indicatorView.startAnimating()
             indicatorView.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
             
@@ -149,5 +153,16 @@ extension MoviesListViewController: UITableViewDataSourcePrefetching {
         if indexPaths.contains(where: isLoadingCell) {
             presenter?.viewWillAppear()
         }
+    }
+}
+class AutomaticHeightTableView: UITableView {
+    
+    override var intrinsicContentSize: CGSize {
+        return contentSize
+    }
+    
+    override func reloadData() {
+        super.reloadData()
+        invalidateIntrinsicContentSize()
     }
 }

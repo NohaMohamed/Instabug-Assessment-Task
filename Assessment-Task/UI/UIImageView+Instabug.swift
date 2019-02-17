@@ -25,3 +25,9 @@ extension UIImageView {
         
     }
 }
+extension UITextField {
+    func setupNonEditable()  {
+        borderStyle = .none
+        isUserInteractionEnabled = false
+    }
+}

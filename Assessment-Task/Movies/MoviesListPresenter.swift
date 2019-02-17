@@ -11,7 +11,7 @@ protocol MoviesListPresenter {
     func viewWillAppear()
     func moviesCount() -> Int
     func fun(url: String, indexPath: IndexPath)
-    
+    func mapMovieDetailsUIMode(_ movie: Movie) ->  MovieDetailViewModel
 }
 
 protocol MoviesListPresenterView: class {
@@ -60,6 +60,14 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
     }
     func moviesCount() -> Int {
         return movies.count
+    }
+    func mapMovieDetailsUIMode(_ movie: Movie) ->  MovieDetailViewModel {
+       var movieDetailViewModel = MovieDetailViewModel()
+        movieDetailViewModel.title = movie.title
+        movieDetailViewModel.overview = movie.overview
+        movieDetailViewModel.releaseDate = movie.releaseDate
+        movieDetailViewModel.movieDetailsCardStatus = .view
+        return movieDetailViewModel
     }
     private func calculateIndexPathsToReload(from newMovies: [Movie]) -> [IndexPath] {
         let startIndex = movies.count - newMovies.count

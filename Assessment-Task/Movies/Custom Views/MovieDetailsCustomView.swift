@@ -16,6 +16,10 @@ class MovieDetailsCustomView: UIView {
     
     @IBOutlet private weak var movieImage: UIImageView!
     @IBOutlet private var contentview: UIView!
+    @IBOutlet private weak var titleTextField: UITextField!
+    @IBOutlet private weak var dateTextField: UITextField!
+    @IBOutlet private weak var overviewTextView: UITextView!
+    @IBOutlet weak var height: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,11 +35,22 @@ class MovieDetailsCustomView: UIView {
         
         initializeView()
     }
-    func configureMoviesView(with image: UIImage){
+    func configureMovieImage(with image: UIImage){
         self.movieImage.image = image
     }
-    func hey() {
-        print("hey")
+    func configureMovieCard(with uiModel: MovieDetailViewModel)  {
+        titleTextField.text = uiModel.title
+        overviewTextView.text = uiModel.overview
+        dateTextField.text = uiModel.releaseDate
+        var frame = self.overviewTextView.frame
+        frame.size.height = self.overviewTextView.contentSize.height
+        height.constant = frame.size.height
+        
+        if uiModel.movieDetailsCardStatus == .view {
+            dateTextField.setupNonEditable()
+            titleTextField.setupNonEditable()
+//            overviewTextView.setupNonEditable()
+        }
     }
     func initializeView() {
         Bundle.main.loadNibNamed("MovieDetailsCustomView", owner: self, options: nil)
