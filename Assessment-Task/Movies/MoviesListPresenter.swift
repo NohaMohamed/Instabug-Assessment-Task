@@ -47,6 +47,7 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
                 } else {
                     //                self.delegate?.onFetchCompleted(with: .none)
                 }
+                self.view?.hideLoading()
             }
         }
     }

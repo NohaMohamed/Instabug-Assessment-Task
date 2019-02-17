@@ -22,6 +22,7 @@ class MoviesListViewController: UIViewController {
 
     //MARK- Outlets
     @IBOutlet private weak var moviesTableView: UITableView!
+    var indicatorView : UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 100, y: 100, width: 50, height: 50)) as UIActivityIndicatorView
     
     //MARK- Properties
     var presenter: MoviesListPresenter?
@@ -37,8 +38,16 @@ class MoviesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+        indicatorView.center = self.view.center
+        indicatorView.hidesWhenStopped = true
+        indicatorView.style = .whiteLarge
+        indicatorView.startAnimating()
+        self.view.addSubview(indicatorView)
+        indicatorView.color = UIColor.red
         configurator.configure(moviesListViewController: self)
         moviesTableView.dataSource = self
+        moviesTableView.delegate = self
         moviesTableView.prefetchDataSource = self
         let cellNib = UINib(nibName: "MoviesDetailsCell", bundle: nil)
         moviesTableView.register(cellNib, forCellReuseIdentifier: "MoviesDetailsCell")
@@ -59,9 +68,11 @@ extension MoviesListViewController: MoviesListPresenterView {
     }
     
     func showLoading() {
+        indicatorView.startAnimating()
     }
     
     func hideLoading() {
+        indicatorView.stopAnimating()
     }
     func configureMovies(_ movies: [Movie]) {
         allMovies = movies
@@ -107,6 +118,18 @@ extension MoviesListViewController:  UITableViewDataSource,UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let lastSectionIndex = tableView.numberOfSections - 1
+        let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+        if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex {
+            // print("this is the last cell")
+            indicatorView.startAnimating()
+            indicatorView.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
+            
+            self.moviesTableView.tableFooterView = indicatorView
+            self.moviesTableView.tableFooterView?.isHidden = false
+        }
     }
 }
 private extension MoviesListViewController {
