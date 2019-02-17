@@ -44,13 +44,16 @@ class MovieDetailsCustomView: UIView {
         dateTextField.text = uiModel.releaseDate
         var frame = self.overviewTextView.frame
         frame.size.height = self.overviewTextView.contentSize.height
-        height.constant = frame.size.height
+        overviewTextView.translatesAutoresizingMaskIntoConstraints = false
+        overviewTextView.isScrollEnabled = false
+        self.overviewTextView.frame = frame
         
         if uiModel.movieDetailsCardStatus == .view {
             dateTextField.setupNonEditable()
             titleTextField.setupNonEditable()
 //            overviewTextView.setupNonEditable()
         }
+        self.layoutIfNeeded()
     }
     func initializeView() {
         Bundle.main.loadNibNamed("MovieDetailsCustomView", owner: self, options: nil)
