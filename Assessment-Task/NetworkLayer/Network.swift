@@ -12,8 +12,8 @@ import Foundation
 public typealias NetworkCompletion = (_ data: Data?,_ response: URLResponse?,_ error: Error?)->()
 
 protocol Network: class {
-//    associatedtype request: Request
     func request(_ requestData: RequestData, completion: @escaping NetworkCompletion)
+    func downloadRequest(_ requestData: RequestData, completion: @escaping NetworkCompletion)
     func cancel()
 }
 
@@ -24,7 +24,6 @@ class NetworkLayer: Network {
         let session = URLSession.shared
         do {
             let request = try self.buildRequest(from: requestData)
-//            NetworkLogger.log(request: request)
             task = session.dataTask(with: request, completionHandler: { data, response, error in
                 completion(data, response, error)
             })
@@ -36,6 +35,18 @@ class NetworkLayer: Network {
     
     func cancel() {
         self.task?.cancel()
+    }
+    func downloadRequest(_ requestData: RequestData, completion: @escaping NetworkCompletion) {
+        let session = URLSession.shared
+        task = session.downloadTask(with: requestData.baseURL, completionHandler: { (url, response, error) in
+            if let data = try? Data(contentsOf: url!){
+                completion(data, response, error)
+            }
+            else{
+                completion(nil, nil, error)
+            }
+        })
+        self.task?.resume()
     }
     
     fileprivate func buildRequest(from requestData: RequestData) throws -> URLRequest {

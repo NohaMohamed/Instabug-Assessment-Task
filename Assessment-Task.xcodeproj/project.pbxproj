@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D00DBFCE221975B600E4E440 /* UIImageView+Instabug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00DBFCD221975B600E4E440 /* UIImageView+Instabug.swift */; };
+		D00DBFD02219789600E4E440 /* MovieImageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00DBFCF2219789600E4E440 /* MovieImageRequest.swift */; };
+		D00DBFD22219918400E4E440 /* MoviesListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00DBFD12219918400E4E440 /* MoviesListRouter.swift */; };
 		D075857D2218507F00E01D62 /* DataResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075857C2218507F00E01D62 /* DataResponseError.swift */; };
 		D07585882218522800E01D62 /* MoviesAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07585872218522800E01D62 /* MoviesAPIClient.swift */; };
 		D075858A221852F800E01D62 /* MovieDetailsCustomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0758589221852F800E01D62 /* MovieDetailsCustomView.xib */; };
@@ -28,7 +31,6 @@
 		D0A352A82217628800385D1D /* MoviesListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A352A72217628800385D1D /* MoviesListPresenter.swift */; };
 		D0A352AB22177CC300385D1D /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A352AA22177CC300385D1D /* Reusable.swift */; };
 		D0A352AE221782F700385D1D /* FetchMoviesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A352AD221782F700385D1D /* FetchMoviesUseCase.swift */; };
-		D0A352B02217834600385D1D /* MoviesListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A352AF2217834600385D1D /* MoviesListRouter.swift */; };
 		D0A352B222178AB400385D1D /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A352B122178AB400385D1D /* Movie.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +52,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D00DBFCD221975B600E4E440 /* UIImageView+Instabug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Instabug.swift"; sourceTree = "<group>"; };
+		D00DBFCF2219789600E4E440 /* MovieImageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieImageRequest.swift; sourceTree = "<group>"; };
+		D00DBFD12219918400E4E440 /* MoviesListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListRouter.swift; sourceTree = "<group>"; };
 		D075857C2218507F00E01D62 /* DataResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataResponseError.swift; sourceTree = "<group>"; };
 		D07585872218522800E01D62 /* MoviesAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesAPIClient.swift; sourceTree = "<group>"; };
 		D0758589221852F800E01D62 /* MovieDetailsCustomView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieDetailsCustomView.xib; sourceTree = "<group>"; };
@@ -77,7 +82,6 @@
 		D0A352A72217628800385D1D /* MoviesListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListPresenter.swift; sourceTree = "<group>"; };
 		D0A352AA22177CC300385D1D /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		D0A352AD221782F700385D1D /* FetchMoviesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchMoviesUseCase.swift; sourceTree = "<group>"; };
-		D0A352AF2217834600385D1D /* MoviesListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListRouter.swift; sourceTree = "<group>"; };
 		D0A352B122178AB400385D1D /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -168,6 +172,7 @@
 				D0A3529E22172BD700385D1D /* Network.swift */,
 				D075857C2218507F00E01D62 /* DataResponseError.swift */,
 				D07585872218522800E01D62 /* MoviesAPIClient.swift */,
+				D00DBFCF2219789600E4E440 /* MovieImageRequest.swift */,
 			);
 			path = NetworkLayer;
 			sourceTree = "<group>";
@@ -180,8 +185,8 @@
 				D0A352A52217624300385D1D /* MoviesListViewController.swift */,
 				D0A352A72217628800385D1D /* MoviesListPresenter.swift */,
 				D0A352AD221782F700385D1D /* FetchMoviesUseCase.swift */,
-				D0A352AF2217834600385D1D /* MoviesListRouter.swift */,
 				D0A352B122178AB400385D1D /* Movie.swift */,
+				D00DBFD12219918400E4E440 /* MoviesListRouter.swift */,
 			);
 			path = Movies;
 			sourceTree = "<group>";
@@ -190,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				D0A352AA22177CC300385D1D /* Reusable.swift */,
+				D00DBFCD221975B600E4E440 /* UIImageView+Instabug.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -339,6 +345,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D00DBFD22219918400E4E440 /* MoviesListRouter.swift in Sources */,
 				D0A352A62217624300385D1D /* MoviesListViewController.swift in Sources */,
 				D0A3526C2216E7DD00385D1D /* ViewController.swift in Sources */,
 				D0A352B222178AB400385D1D /* Movie.swift in Sources */,
@@ -347,10 +354,11 @@
 				D0A352A82217628800385D1D /* MoviesListPresenter.swift in Sources */,
 				D0A352AE221782F700385D1D /* FetchMoviesUseCase.swift in Sources */,
 				D0A352A1221740E200385D1D /* MoviesRequest.swift in Sources */,
-				D0A352B02217834600385D1D /* MoviesListRouter.swift in Sources */,
+				D00DBFCE221975B600E4E440 /* UIImageView+Instabug.swift in Sources */,
 				D075858C2218551600E01D62 /* MovieDetailsCustomView.swift in Sources */,
 				D075857D2218507F00E01D62 /* DataResponseError.swift in Sources */,
 				D0A3526A2216E7DD00385D1D /* AppDelegate.swift in Sources */,
+				D00DBFD02219789600E4E440 /* MovieImageRequest.swift in Sources */,
 				D07585882218522800E01D62 /* MoviesAPIClient.swift in Sources */,
 				D0A3529F22172BD700385D1D /* Network.swift in Sources */,
 				D07585902218590500E01D62 /* MoviesDetailsCell.swift in Sources */,

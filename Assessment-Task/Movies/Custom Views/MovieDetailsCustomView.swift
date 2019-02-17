@@ -8,9 +8,16 @@
 
 import UIKit
 
+enum MovieDetailsCardStatus {
+    case add
+    case view
+}
 class MovieDetailsCustomView: UIView {
     
-    @IBOutlet var contentview: UIView!
+    @IBOutlet private weak var movieImage: UIImageView!
+    @IBOutlet private var contentview: UIView!
+    var cache: NSCache<AnyObject, AnyObject>!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -24,6 +31,10 @@ class MovieDetailsCustomView: UIView {
         super.init(coder: aDecoder)
         
         initializeView()
+    }
+    func configureMoviesView(with imageURL: String){
+        cache = NSCache()
+        movieImage.imageFromServerURL(url: imageURL, imageCache: cache)
     }
     func hey() {
         print("hey")

@@ -10,13 +10,20 @@ import UIKit
 
 public enum MovieRequest {
     case fetchMovies(page:Int)
-    case fetccMovieImage(_ imageURL: String)
+    case fetchMovieImage(_ imageURL: String)
 }
 
 extension MovieRequest: RequestData {
     
     public var baseURL: URL {
-        guard let url = URL(string: "https://api.themoviedb.org/3/discover/movie/") else { fatalError("baseURL could not be configured.")}
+        var urlValue : String = ""
+        switch self {
+        case .fetchMovies:
+            urlValue = "https://api.themoviedb.org/3/discover/movie/"
+        case .fetchMovieImage(let imageURL):
+            urlValue = "https://image.tmdb.org/t/p/w500" + imageURL
+        }
+        guard let url = URL(string: urlValue)  else { fatalError("baseURL could not be configured.")}
         return url
     }
     

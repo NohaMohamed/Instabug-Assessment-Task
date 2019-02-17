@@ -15,8 +15,8 @@ class MoviesDetailsCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-
-        moviesDetailsView.hey()
     }
-
+    func configureCell(imageURL: String) {
+        moviesDetailsView.configureMoviesView(with: imageURL)
+    }
 }

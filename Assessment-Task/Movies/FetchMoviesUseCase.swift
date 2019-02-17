@@ -23,8 +23,7 @@ class FetchMoviesUseCase: BaseUseCase {
             return
         }
         isFetchInProgress = true
-        let apiClient = MoviesAPIClient()
-        apiClient.getNewMovies(page: 1, success: { (model) in
+        MoviesAPIClient.sharedClient.getNewMovies(page: toBeLoadedPage, success: { (model) in
                 self.isFetchInProgress = false
             success(model as! MovieApiResponse)
             print(model as! MovieApiResponse)

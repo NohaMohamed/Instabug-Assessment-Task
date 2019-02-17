@@ -1,5 +1,5 @@
 //
-//  MoviesListRouter.swift
+//  MovieImageRequest.swift
 //  Assessment-Task
 //
 //  Created by Noha  on 2/17/19.
@@ -8,6 +8,6 @@
 
 import UIKit
 
-class MoviesListRouter: NSObject {
+class MovieImageRequest: NSObject {
 
 }

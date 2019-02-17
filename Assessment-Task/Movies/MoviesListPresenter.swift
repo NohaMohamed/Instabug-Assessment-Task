@@ -33,16 +33,18 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
         
         fetchMoviesUseCase.setPageNumber(currentPage)
         fetchMoviesUseCase.execute { movieApiResponse in
-            let moviesResponse = movieApiResponse as! MovieApiResponse
-            let allMovies = moviesResponse.movies
-            self.currentPage += 1
-            self.movies += allMovies
-            self.view?.configureMovies(allMovies)
-            if moviesResponse.page > 1 {
-                let indexPathsToReload = self.calculateIndexPathsToReload(from: self.movies)
-                self.view?.onFetchCompleted(with: indexPathsToReload)
-            } else {
-//                self.delegate?.onFetchCompleted(with: .none)
+            DispatchQueue.main.async {
+                let moviesResponse = movieApiResponse as! MovieApiResponse
+                let allMovies = moviesResponse.movies
+                self.currentPage += 1
+                self.movies += allMovies
+                self.view?.configureMovies(allMovies)
+                if moviesResponse.page > 1 {
+                    let indexPathsToReload = self.calculateIndexPathsToReload(from: self.movies)
+                    self.view?.onFetchCompleted(with: indexPathsToReload)
+                } else {
+                    //                self.delegate?.onFetchCompleted(with: .none)
+                }
             }
         }
     }
