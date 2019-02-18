@@ -48,6 +48,10 @@ class MovieDetailsCustomView: UIView {
             overviewTextView.isScrollEnabled = false
             self.overviewTextView.frame = frame
             
+            movieImage.alpha = 1
+            dateTextField.alpha = 1
+            overviewTextView.alpha = 1
+            titleTextField.alpha = 1
             if mappedModel.movieDetailsCardStatus == .view {
                 dateTextField.setupNonEditable()
                 titleTextField.setupNonEditable()
@@ -57,11 +61,19 @@ class MovieDetailsCustomView: UIView {
                 movieImage.addGestureRecognizer(tapGestureRecognizer)
             }
             layoutIfNeeded()
+        }else{
+            hideView()
         }
         
     }
     @objc func imageTapped() {
         
+    }
+    func hideView()  {
+        movieImage.alpha = 0
+        dateTextField.alpha = 0
+        overviewTextView.alpha = 0
+        titleTextField.alpha = 0
     }
     func initializeView() {
         Bundle.main.loadNibNamed("MovieDetailsCustomView", owner: self, options: nil)

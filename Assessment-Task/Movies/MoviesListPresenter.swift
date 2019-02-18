@@ -13,6 +13,7 @@ protocol MoviesListPresenter {
     func fun(url: String, indexPath: IndexPath)
     func mapMovieDetailsUIMode(_ movie: Movie) ->  MovieDetailViewModel
     func totalCount() -> Int
+    func getMovie(at index: Int) -> MovieDetailViewModel
 }
 
 protocol MoviesListPresenterView: class {
@@ -43,14 +44,13 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
                 self.totalMoviesResult = moviesResponse.numberOfResults
                 self.currentPage += 1
                 self.movies += allMovies
-                
+                self.view?.configureMovies(self.movies)
                 if moviesResponse.page > 1 {
                     let indexPathsToReload = self.calculateIndexPathsToReload(from: self.movies)
                     self.view?.onFetchCompleted(with: indexPathsToReload)
                 } else {
-                    //                self.delegate?.onFetchCompleted(with: .none)
+                    self.view?.onFetchCompleted(with: .none)
                 }
-                self.view?.configureMovies(self.movies)
                 self.view?.hideLoading()
             }
         }
@@ -61,6 +61,10 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
         self.view = view
         self.fetchMoviesUseCase = fetchMoviesUseCase
         self.router = router
+    }
+    func getMovie(at index: Int) -> MovieDetailViewModel {
+        let movieDetails = mapMovieDetailsUIMode(movies[index])
+        return movieDetails
     }
     func moviesCount() -> Int {
         return movies.count

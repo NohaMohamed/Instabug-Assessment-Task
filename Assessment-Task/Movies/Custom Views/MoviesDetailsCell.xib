@@ -21,6 +21,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="0tx-oe-ZEy">
+                        <rect key="frame" x="177.5" y="12" width="20" height="20"/>
+                        <color key="tintColor" red="0.34658885969999997" green="1" blue="0.081804365190000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </activityIndicatorView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
@@ -28,9 +32,12 @@
                     <constraint firstItem="TUw-yV-QFw" firstAttribute="top" secondItem="KXB-ch-fhH" secondAttribute="top" id="UAd-Ro-aQw"/>
                     <constraint firstItem="TUw-yV-QFw" firstAttribute="leading" secondItem="KXB-ch-fhH" secondAttribute="leading" id="d2i-3y-Lcw"/>
                     <constraint firstAttribute="bottom" secondItem="TUw-yV-QFw" secondAttribute="bottom" id="hHd-VS-zHK"/>
+                    <constraint firstItem="0tx-oe-ZEy" firstAttribute="centerY" secondItem="KXB-ch-fhH" secondAttribute="centerY" id="ibX-91-lHh"/>
+                    <constraint firstItem="0tx-oe-ZEy" firstAttribute="centerX" secondItem="KXB-ch-fhH" secondAttribute="centerX" id="l3V-7q-lNf"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="indicatorView" destination="0tx-oe-ZEy" id="MNn-AJ-HCy"/>
                 <outlet property="moviesDetailsView" destination="TUw-yV-QFw" id="8ub-CT-SpU"/>
             </connections>
         </tableViewCell>

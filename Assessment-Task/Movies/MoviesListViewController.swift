@@ -28,13 +28,7 @@ class MoviesListViewController: UIViewController {
     //MARK- Properties
     var presenter: MoviesListPresenter?
     let configurator = MoviesListConfigurator()
-    var allMovies : [Movie]? {
-        didSet{
-            DispatchQueue.main.async {
-                self.moviesTableView.reloadData()
-            }
-        }
-    }
+    var allMovies : [Movie]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,7 +111,7 @@ extension MoviesListViewController:  UITableViewDataSource,UITableViewDelegate {
         {
             cell.configureCell(with: .none)
         }else   {
-            let movieDetails = presenter?.mapMovieDetailsUIMode(allMovies![indexPath.row])
+            let movieDetails = presenter?.getMovie(at: indexPath.row)
             cell.configureCell(with: movieDetails ?? MovieDetailViewModel())
             if let img = MoviesAPIClient.sharedClient.cache.object(forKey: (indexPath as NSIndexPath).row as AnyObject) {
                 cell.configureMovieImage(image: img as! UIImage)

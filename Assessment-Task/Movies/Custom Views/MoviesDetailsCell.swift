@@ -11,13 +11,20 @@ import UIKit
 class MoviesDetailsCell: UITableViewCell {
 
     
+    @IBOutlet weak var indicatorView: UIActivityIndicatorView!
     @IBOutlet private weak var moviesDetailsView: MovieDetailsCustomView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
     func configureCell(with uiModel: MovieDetailViewModel?)  {
+        guard uiModel != nil else {
+            moviesDetailsView.configureMovieCard(with: uiModel)
+            indicatorView.startAnimating()
+            return
+        }
         moviesDetailsView.configureMovieCard(with: uiModel)
+        indicatorView.stopAnimating()
     }
     func configureMovieImage(image: UIImage)  {
         moviesDetailsView.configureMovieImage(with: image)
