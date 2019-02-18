@@ -12,6 +12,7 @@ protocol MoviesListPresenter {
     func moviesCount() -> Int
     func fun(url: String, indexPath: IndexPath)
     func mapMovieDetailsUIMode(_ movie: Movie) ->  MovieDetailViewModel
+    func totalCount() -> Int
 }
 
 protocol MoviesListPresenterView: class {
@@ -27,9 +28,10 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
     
     fileprivate weak var view: MoviesListPresenterView?
     private var fetchMoviesUseCase: FetchMoviesUseCase
-    private var router: MoviesListRouter?
+    private var router: MoviesListNavigator?
     private var movies: [Movie] = []
     private var currentPage = 1
+    private var totalMoviesResult = 0
     
     func viewWillAppear() {
         
@@ -38,28 +40,33 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
             DispatchQueue.main.async {
                 let moviesResponse = movieApiResponse as! MovieApiResponse
                 let allMovies = moviesResponse.movies
+                self.totalMoviesResult = moviesResponse.numberOfResults
                 self.currentPage += 1
                 self.movies += allMovies
-                self.view?.configureMovies(allMovies)
+                
                 if moviesResponse.page > 1 {
                     let indexPathsToReload = self.calculateIndexPathsToReload(from: self.movies)
                     self.view?.onFetchCompleted(with: indexPathsToReload)
                 } else {
                     //                self.delegate?.onFetchCompleted(with: .none)
                 }
+                self.view?.configureMovies(self.movies)
                 self.view?.hideLoading()
             }
         }
     }
     init(view: MoviesListPresenterView,
          fetchMoviesUseCase: FetchMoviesUseCase,
-         router: MoviesListRouter) {
+         router: MoviesListNavigator) {
         self.view = view
         self.fetchMoviesUseCase = fetchMoviesUseCase
         self.router = router
     }
     func moviesCount() -> Int {
         return movies.count
+    }
+    func totalCount() -> Int {
+        return totalMoviesResult
     }
     func mapMovieDetailsUIMode(_ movie: Movie) ->  MovieDetailViewModel {
        var movieDetailViewModel = MovieDetailViewModel()

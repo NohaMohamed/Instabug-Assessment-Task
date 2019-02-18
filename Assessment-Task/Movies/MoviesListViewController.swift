@@ -12,14 +12,15 @@ class MoviesListConfigurator {
     
     func configure(moviesListViewController: MoviesListViewController) {
         let fetchMoviesUseCase = FetchMoviesUseCase()
-        let presenter = MoviesListPresenterImplementation(view: moviesListViewController, fetchMoviesUseCase: fetchMoviesUseCase, router: MoviesListRouter())
+        let router = MoviesListNavigator(navigationController: moviesListViewController.navigationController ?? UINavigationController())
+        let presenter = MoviesListPresenterImplementation(view: moviesListViewController, fetchMoviesUseCase: fetchMoviesUseCase, router: router)
         moviesListViewController.presenter = presenter
     }
 }
 
 
 class MoviesListViewController: UIViewController {
-
+    
     //MARK- Outlets
     @IBOutlet private weak var moviesTableView: UITableView!
     var indicatorView : UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 100, y: 100, width: 50, height: 50)) as UIActivityIndicatorView
@@ -37,7 +38,7 @@ class MoviesListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         
         indicatorView.center = self.view.center
         indicatorView.hidesWhenStopped = true
@@ -84,8 +85,8 @@ extension MoviesListViewController: MoviesListPresenterView {
     func onFetchCompleted(with newIndexPathsToReload: [IndexPath]?) {
         // 1
         guard let newIndexPathsToReload = newIndexPathsToReload else {
-//            indicatorView.stopAnimating()
-//            tableView.isHidden = false
+            //            indicatorView.stopAnimating()
+            //            tableView.isHidden = false
             moviesTableView.reloadData()
             return
         }
@@ -98,26 +99,31 @@ extension MoviesListViewController: MoviesListPresenterView {
     }
     
     func onFetchFailed(with reason: String) {
-       /* indicatorView.stopAnimating()
-        
-        let title = "Warning".localizedString
-        let action = UIAlertAction(title: "OK".localizedString, style: .default)
-        displayAlert(with: title , message: reason, actions: [action])*/
+        /* indicatorView.stopAnimating()
+         
+         let title = "Warning".localizedString
+         let action = UIAlertAction(title: "OK".localizedString, style: .default)
+         displayAlert(with: title , message: reason, actions: [action])*/
     }
 }
 extension MoviesListViewController:  UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allMovies == nil ? 0 : 10
+        return allMovies == nil ? 0 : presenter?.totalCount() ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MoviesDetailsCell", for: indexPath) as! MoviesDetailsCell
-        let movieDetails = presenter?.mapMovieDetailsUIMode(allMovies![indexPath.row])
-        cell.configureCell(with: movieDetails ?? MovieDetailViewModel())
-        if let img = MoviesAPIClient.sharedClient.cache.object(forKey: (indexPath as NSIndexPath).row as AnyObject) {
-            cell.configureMovieImage(image: img as! UIImage)
-        }else{
-            presenter?.fun(url:  allMovies![indexPath.row].posterPath, indexPath: indexPath)
+        if isLoadingCell(for: indexPath)
+        {
+            cell.configureCell(with: .none)
+        }else   {
+            let movieDetails = presenter?.mapMovieDetailsUIMode(allMovies![indexPath.row])
+            cell.configureCell(with: movieDetails ?? MovieDetailViewModel())
+            if let img = MoviesAPIClient.sharedClient.cache.object(forKey: (indexPath as NSIndexPath).row as AnyObject) {
+                cell.configureMovieImage(image: img as! UIImage)
+            }else{
+                presenter?.fun(url:  allMovies![indexPath.row].posterPath, indexPath: indexPath)
+            }
         }
         return cell
     }
@@ -153,16 +159,5 @@ extension MoviesListViewController: UITableViewDataSourcePrefetching {
         if indexPaths.contains(where: isLoadingCell) {
             presenter?.viewWillAppear()
         }
-    }
-}
-class AutomaticHeightTableView: UITableView {
-    
-    override var intrinsicContentSize: CGSize {
-        return contentSize
-    }
-    
-    override func reloadData() {
-        super.reloadData()
-        invalidateIntrinsicContentSize()
     }
 }

@@ -16,7 +16,7 @@ class MoviesDetailsCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-    func configureCell(with uiModel: MovieDetailViewModel)  {
+    func configureCell(with uiModel: MovieDetailViewModel?)  {
         moviesDetailsView.configureMovieCard(with: uiModel)
     }
     func configureMovieImage(image: UIImage)  {

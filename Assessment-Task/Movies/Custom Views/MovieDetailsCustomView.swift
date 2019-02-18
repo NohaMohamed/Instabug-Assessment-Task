@@ -19,7 +19,6 @@ class MovieDetailsCustomView: UIView {
     @IBOutlet private weak var titleTextField: UITextField!
     @IBOutlet private weak var dateTextField: UITextField!
     @IBOutlet private weak var overviewTextView: UITextView!
-    @IBOutlet weak var height: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -38,22 +37,31 @@ class MovieDetailsCustomView: UIView {
     func configureMovieImage(with image: UIImage){
         self.movieImage.image = image
     }
-    func configureMovieCard(with uiModel: MovieDetailViewModel)  {
-        titleTextField.text = uiModel.title
-        overviewTextView.text = uiModel.overview
-        dateTextField.text = uiModel.releaseDate
-        var frame = self.overviewTextView.frame
-        frame.size.height = self.overviewTextView.contentSize.height
-        overviewTextView.translatesAutoresizingMaskIntoConstraints = false
-        overviewTextView.isScrollEnabled = false
-        self.overviewTextView.frame = frame
-        
-        if uiModel.movieDetailsCardStatus == .view {
-            dateTextField.setupNonEditable()
-            titleTextField.setupNonEditable()
-//            overviewTextView.setupNonEditable()
+    func configureMovieCard(with uiModel: MovieDetailViewModel?)  {
+        if let mappedModel = uiModel {
+            titleTextField.text = mappedModel.title
+            overviewTextView.text = mappedModel.overview
+            dateTextField.text = mappedModel.releaseDate
+            var frame = self.overviewTextView.frame
+            frame.size.height = self.overviewTextView.contentSize.height
+            overviewTextView.translatesAutoresizingMaskIntoConstraints = false
+            overviewTextView.isScrollEnabled = false
+            self.overviewTextView.frame = frame
+            
+            if mappedModel.movieDetailsCardStatus == .view {
+                dateTextField.setupNonEditable()
+                titleTextField.setupNonEditable()
+            }else {
+                let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+                movieImage.isUserInteractionEnabled = true
+                movieImage.addGestureRecognizer(tapGestureRecognizer)
+            }
+            layoutIfNeeded()
         }
-        self.layoutIfNeeded()
+        
+    }
+    @objc func imageTapped() {
+        
     }
     func initializeView() {
         Bundle.main.loadNibNamed("MovieDetailsCustomView", owner: self, options: nil)

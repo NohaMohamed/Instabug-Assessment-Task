@@ -8,6 +8,24 @@
 
 import UIKit
 
-class MovieDetailsViewController: NSObject {
+class MovieDetailsConfigurator {
+    
+    func configure(moviesListViewController: MoviesListViewController) {
+    }
+}
 
+class MovieDetailsViewController: UIViewController {
+    
+    //MARK- Properties
+    var presenter: MoviesListPresenter?
+    let configurator = MoviesListConfigurator()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
 }

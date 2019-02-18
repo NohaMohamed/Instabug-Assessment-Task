@@ -18,6 +18,14 @@
             </objects>
             <point key="canvasLocation" x="836" y="-2.2488755622188905"/>
         </scene>
+        <!--Movie Details View Controller-->
+        <scene sceneID="TJK-Qk-Qhd">
+            <objects>
+                <viewController id="t9L-St-ULK" customClass="MovieDetailsViewController" customModule="Assessment_Task" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bXb-xX-WuK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1674" y="640"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="ug4-C1-U1N">
             <objects>

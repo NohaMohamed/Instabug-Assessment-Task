@@ -12,4 +12,5 @@ struct MovieDetailViewModel {
     var releaseDate = ""
     var overview = ""
     var movieDetailsCardStatus: MovieDetailsCardStatus = .view
+    var movieImageAddAction: (() -> Void)?
 }
