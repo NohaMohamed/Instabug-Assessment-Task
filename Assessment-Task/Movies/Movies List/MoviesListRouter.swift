@@ -14,16 +14,16 @@ protocol Navigator {
 }
 
 class MoviesListNavigator: Navigator {
-    private weak var navigationController: UINavigationController?
+    private weak var viewController: MoviesListViewController?
     enum Destination {
         case addMovieDetails
     }
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
+    init(viewController: MoviesListViewController) {
+        self.viewController = viewController
     }
     func navigate(to destination: Destination) {
-        let viewController = makeViewController(for: destination)
-        navigationController?.pushViewController(viewController, animated: true)
+        let movieDetailsViewController = makeViewController(for: destination)
+        viewController?.navigationController?.pushViewController(movieDetailsViewController, animated: true)
     }
     private func makeViewController(for destination: Destination) -> UIViewController {
         switch destination {
@@ -33,9 +33,10 @@ class MoviesListNavigator: Navigator {
         }
     }
     func kh() -> UIViewController? {
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let moviesDetailsViewController  = storyboard.instantiateViewController(withIdentifier: "moviesDetailsViewController") as? MovieDetailsViewController {
-            return moviesDetailsViewController
+        if let moviesDetailsViewController  = storyboard.instantiateViewController(withIdentifier: "MovieDetailsViewController") as? UINavigationController, let vc = moviesDetailsViewController.topViewController as? MovieDetailsViewController {
+            return vc
         }
         return nil
     }

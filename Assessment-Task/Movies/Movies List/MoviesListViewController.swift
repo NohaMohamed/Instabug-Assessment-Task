@@ -12,7 +12,7 @@ class MoviesListConfigurator {
     
     func configure(moviesListViewController: MoviesListViewController) {
         let fetchMoviesUseCase = FetchMoviesUseCase()
-        let router = MoviesListNavigator(navigationController: moviesListViewController.navigationController ?? UINavigationController())
+        let router = MoviesListNavigator(viewController: moviesListViewController)
         let presenter = MoviesListPresenterImplementation(view: moviesListViewController, fetchMoviesUseCase: fetchMoviesUseCase, router: router)
         moviesListViewController.presenter = presenter
     }
@@ -56,6 +56,7 @@ class MoviesListViewController: UIViewController {
     }
     
     @objc func add()   {
+        presenter?.navigateToMovieDetailViewController()
     }
 }
 extension MoviesListViewController: MoviesListPresenterView {

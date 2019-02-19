@@ -14,6 +14,7 @@ protocol MoviesListPresenter {
     func mapMovieDetailsUIMode(_ movie: Movie) ->  MovieDetailViewModel
     func totalCount() -> Int
     func getMovie(at index: Int) -> MovieDetailViewModel
+    func navigateToMovieDetailViewController()
 }
 
 protocol MoviesListPresenterView: class {
@@ -100,5 +101,8 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
                 print("la2aaa")
             }
         }
+    }
+    func navigateToMovieDetailViewController() {
+        router?.navigate(to: .addMovieDetails)
     }
 }

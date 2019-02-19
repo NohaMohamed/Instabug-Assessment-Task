@@ -118,6 +118,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D012422D221B7F8A002B61B7 /* Movies List */ = {
+			isa = PBXGroup;
+			children = (
+				D0A352A32217617E00385D1D /* MoviesListViewController.xib */,
+				D0A352A52217624300385D1D /* MoviesListViewController.swift */,
+				D0A352A72217628800385D1D /* MoviesListPresenter.swift */,
+				D0A352AD221782F700385D1D /* FetchMoviesUseCase.swift */,
+				D00DBFD12219918400E4E440 /* MoviesListRouter.swift */,
+			);
+			path = "Movies List";
+			sourceTree = "<group>";
+		};
+		D012422E221B7FA7002B61B7 /* Add Movies Details */ = {
+			isa = PBXGroup;
+			children = (
+				D03183DE2219EEA200313534 /* MovieDetailsViewController.swift */,
+				D03183E02219EECB00313534 /* MovieDetailsViewController.xib */,
+				D03183E22219EF3E00313534 /* MovieDetailViewModel.swift */,
+				D0302878221B160B00895472 /* MovieDetailsPresenter.swift */,
+			);
+			path = "Add Movies Details";
+			sourceTree = "<group>";
+		};
 		D0A3525D2216E7DD00385D1D = {
 			isa = PBXGroup;
 			children = (
@@ -188,17 +211,10 @@
 		D0A352A22217614300385D1D /* Movies */ = {
 			isa = PBXGroup;
 			children = (
+				D012422E221B7FA7002B61B7 /* Add Movies Details */,
+				D012422D221B7F8A002B61B7 /* Movies List */,
 				D0A352AC22177D5300385D1D /* Custom Views */,
-				D0A352A32217617E00385D1D /* MoviesListViewController.xib */,
-				D0A352A52217624300385D1D /* MoviesListViewController.swift */,
-				D0A352A72217628800385D1D /* MoviesListPresenter.swift */,
-				D0A352AD221782F700385D1D /* FetchMoviesUseCase.swift */,
 				D0A352B122178AB400385D1D /* Movie.swift */,
-				D00DBFD12219918400E4E440 /* MoviesListRouter.swift */,
-				D03183DE2219EEA200313534 /* MovieDetailsViewController.swift */,
-				D03183E02219EECB00313534 /* MovieDetailsViewController.xib */,
-				D03183E22219EF3E00313534 /* MovieDetailViewModel.swift */,
-				D0302878221B160B00895472 /* MovieDetailsPresenter.swift */,
 			);
 			path = Movies;
 			sourceTree = "<group>";
