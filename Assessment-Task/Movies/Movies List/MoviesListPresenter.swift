@@ -13,11 +13,12 @@ protocol MoviesListPresenter {
     func fun(indexPath: IndexPath)
     func mapMovieDetailsUIMode(_ movie: Movie) ->  MovieDetailViewModel
     func totalCount() -> Int
-    func getMovie(at index: Int) -> MovieDetailViewModel
+    func getMovie(at index: IndexPath) -> MovieDetailViewModel
     func navigateToMovieDetailViewController()
     func titleOfSection(_ section: Int) -> String
     func numberOfSections() -> Int
     func addNewMovie(_ movie: Movie)
+    func numberOfRows(_ section: Int) -> Int
 }
 
 protocol MoviesListPresenterView: class {
@@ -37,7 +38,7 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
     private var currentPage = 1
     fileprivate var totalMoviesResult = 0
     var moviesListTableViewSections: [MoviesListTableViewSection] = []
-    lazy fileprivate var movies: [Movie]? = moviesListTableViewSections.first(where: {$0.sectionType == .allMovies})?.movies
+//    lazy fileprivate var movies: [Movie]? = moviesListTableViewSections.first(where: {$0.sectionType == .allMovies})?.movies
     
     //MARK -: Intialization
     
@@ -68,7 +69,7 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
                     self.moviesListTableViewSections.append(newSection)
                 }
                 if moviesResponse.page > 1 {
-                    let indexPathsToReload = self.calculateIndexPathsToReload(from: self.movies!)
+                    let indexPathsToReload = self.calculateIndexPathsToReload(from: self.getAllMovies()!)
                     self.view?.onFetchCompleted(with: indexPathsToReload)
                 } else {
                     self.view?.onFetchCompleted(with: .none)
@@ -97,7 +98,7 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
         }
     }
     private func calculateIndexPathsToReload(from newMovies: [Movie]) -> [IndexPath] {
-        let startIndex = movies!.count - newMovies.count
+        let startIndex = getAllMovies()!.count - newMovies.count
         let endIndex = startIndex + newMovies.count
         return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
     }
@@ -116,8 +117,9 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
     }
     //MARK:- UI Handling
     
-    func getMovie(at index: Int) -> MovieDetailViewModel {
-        let movieDetails = mapMovieDetailsUIMode(movies![index])
+    func getMovie(at index: IndexPath) -> MovieDetailViewModel {
+        let movies = moviesListTableViewSections[index.section].movies
+        let movieDetails = mapMovieDetailsUIMode(movies[index.row])
         return movieDetails
     }
     func mapMovieDetailsUIMode(_ movie: Movie) ->  MovieDetailViewModel {
@@ -134,8 +136,10 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
         }else{
             let newSection = MoviesListTableViewSection(sectionType: .myMovies,movies: [movie])
             self.moviesListTableViewSections.append(newSection)
-            view?.reloadData()
+            self.moviesListTableViewSections.reverse()
+            
         }
+        view?.reloadData()
     } 
     func navigateToMovieDetailViewController() {
         router?.navigate(to: .addMovieDetails)
@@ -144,7 +148,7 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
 // MARK: - Handle TableView
 extension MoviesListPresenterImplementation {
     func moviesCount() -> Int {
-        return movies!.count
+        return getAllMovies()!.count
     }
     func totalCount() -> Int {
         return totalMoviesResult
@@ -154,5 +158,11 @@ extension MoviesListPresenterImplementation {
     }
     func titleOfSection(_ section: Int) -> String {
         return moviesListTableViewSections[section].sectionTitle
+    }
+    func numberOfRows(_ section: Int) -> Int {
+        if moviesListTableViewSections[section].sectionType == .allMovies {
+            return totalCount()
+        }
+        return moviesListTableViewSections[section].movies.count
     }
 }

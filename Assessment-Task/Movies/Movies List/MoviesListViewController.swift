@@ -73,11 +73,12 @@ class MoviesListViewController: UIViewController {
         moviesTableView.register(cellNib, forCellReuseIdentifier: "MoviesDetailsCell")
         let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
         navigationItem.rightBarButtonItem = addBarButton
+        presenter?.viewWillAppear()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        presenter?.viewWillAppear()
+        
     }
     @objc func add()   {
         let storyboard = UIStoryboard(name: "Movies", bundle: nil)
@@ -139,7 +140,7 @@ extension MoviesListViewController:  UITableViewDataSource,UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return  presenter?.totalCount() ?? 0
+        return  presenter?.numberOfRows(section) ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -148,7 +149,7 @@ extension MoviesListViewController:  UITableViewDataSource,UITableViewDelegate {
         {
             cell.configureCell(with: .none)
         }else   {
-            let movieDetails = presenter?.getMovie(at: indexPath.row)
+            let movieDetails = presenter?.getMovie(at: indexPath)
             cell.configureCell(with: movieDetails ?? MovieDetailViewModel())
             if let img = MoviesAPIClient.sharedClient.cache.object(forKey: (indexPath as NSIndexPath).row as AnyObject) {
                 cell.configureMovieImage(image: img as! UIImage)
