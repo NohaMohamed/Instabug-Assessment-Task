@@ -20,6 +20,8 @@ class MovieDetailsCustomView: UIView {
     @IBOutlet private weak var dateTextField: UITextField!
     @IBOutlet private weak var overviewTextView: UITextView!
     
+    @IBOutlet weak var defaultHeight: NSLayoutConstraint!
+    private var action: (() -> Void)?
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -44,6 +46,7 @@ class MovieDetailsCustomView: UIView {
             dateTextField.text = mappedModel.releaseDate
             var frame = self.overviewTextView.frame
             frame.size.height = self.overviewTextView.contentSize.height
+//           defaultHeight.constant = self.overviewTextView.contentSize.height
             overviewTextView.translatesAutoresizingMaskIntoConstraints = false
             overviewTextView.isScrollEnabled = false
             self.overviewTextView.frame = frame
@@ -56,9 +59,13 @@ class MovieDetailsCustomView: UIView {
                 dateTextField.setupNonEditable()
                 titleTextField.setupNonEditable()
             }else {
-                let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
-                movieImage.isUserInteractionEnabled = true
-                movieImage.addGestureRecognizer(tapGestureRecognizer)
+                if let ac = uiModel?.movieImageAddAction { 
+                    self.action = ac
+                    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+                    movieImage.isUserInteractionEnabled = true
+                    movieImage.addGestureRecognizer(tapGestureRecognizer)
+                }
+                
             }
             layoutIfNeeded()
         }else{
@@ -66,8 +73,12 @@ class MovieDetailsCustomView: UIView {
         }
         
     }
+    
     @objc func imageTapped() {
-        
+        guard action != nil else {
+            return
+        }
+        action!()
     }
     func hideView()  {
         movieImage.alpha = 0

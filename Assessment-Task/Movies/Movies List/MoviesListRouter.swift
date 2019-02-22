@@ -23,7 +23,7 @@ class MoviesListNavigator: Navigator {
     }
     func navigate(to destination: Destination) {
         let movieDetailsViewController = makeViewController(for: destination)
-        viewController?.navigationController?.pushViewController(movieDetailsViewController, animated: true)
+        viewController?.present(movieDetailsViewController, animated: false, completion: nil)
     }
     private func makeViewController(for destination: Destination) -> UIViewController {
         switch destination {
@@ -34,9 +34,9 @@ class MoviesListNavigator: Navigator {
     }
     func kh() -> UIViewController? {
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let moviesDetailsViewController  = storyboard.instantiateViewController(withIdentifier: "MovieDetailsViewController") as? UINavigationController, let vc = moviesDetailsViewController.topViewController as? MovieDetailsViewController {
-            return vc
+        let storyboard = UIStoryboard(name: "Movies", bundle: nil)
+        if let moviesDetailsViewController  = storyboard.instantiateViewController(withIdentifier: "movieDetailsViewController") as? MovieDetailsViewController {
+            return moviesDetailsViewController
         }
         return nil
     }

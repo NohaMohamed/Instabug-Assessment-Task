@@ -13,4 +13,10 @@ struct MovieDetailViewModel {
     var overview = ""
     var movieDetailsCardStatus: MovieDetailsCardStatus = .view
     var movieImageAddAction: (() -> Void)?
+    init() {}
+    init(title: String, overview: String, releaseDate: String) {
+        self.title = title
+        self.releaseDate = releaseDate
+        self.overview = overview
+    }
 }

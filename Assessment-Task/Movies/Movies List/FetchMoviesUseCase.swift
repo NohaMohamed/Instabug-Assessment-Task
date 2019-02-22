@@ -23,11 +23,11 @@ class FetchMoviesUseCase: BaseUseCase {
             return
         }
         isFetchInProgress = true
-        MoviesAPIClient.sharedClient.getNewMovies(page: toBeLoadedPage, success: { (model) in
-                self.isFetchInProgress = false
+        MoviesAPIClient.sharedClient.getNewMovies(page: toBeLoadedPage, success: { [weak self] (model) in
+                self?.isFetchInProgress = false
             success(model as! MovieApiResponse)
             print(model as! MovieApiResponse)
-        }) { (errot) in
-                self.isFetchInProgress = false
+        }) { [weak self]  (errot) in
+                self?.isFetchInProgress = false
         }}
     }

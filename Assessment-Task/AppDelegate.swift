@@ -16,6 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+       /* let storyboard = UIStoryboard(name: "Movies", bundle: nil)
+        let homeScreenView  = storyboard.instantiateViewController(withIdentifier: "PhoneVC")
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        appDelegate!.window?.rootViewController = homeScreenView*/
         return true
     }
 

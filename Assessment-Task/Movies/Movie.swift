@@ -7,6 +7,18 @@
 //
 import Foundation
 
+struct Movies {
+    var moviesSectionTitle : String?
+    var  moviesSections:  [Movie]? = nil {
+        didSet {
+            
+        }
+    }
+    
+    init() {
+        
+    }
+}
 struct MovieApiResponse {
     let page: Int
     let numberOfResults: Int
@@ -36,13 +48,19 @@ extension MovieApiResponse: Decodable {
 
 
 struct Movie {
-    let id: Int
-    let posterPath: String
-    let backdrop: String
+    var id: Int? = 0
+    var posterPath: String = ""
+    var backdrop: String = ""
     let title: String
     let releaseDate: String
-    let rating: Double
+    var rating: Double = 0.0
     let overview: String
+    
+    init(title: String, overview: String, releaseDate: String) {
+        self.title = title
+        self.releaseDate = releaseDate
+        self.overview = overview
+    }
 }
 
 extension Movie: Decodable {

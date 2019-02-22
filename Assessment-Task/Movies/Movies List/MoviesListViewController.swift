@@ -17,8 +17,32 @@ class MoviesListConfigurator {
         moviesListViewController.presenter = presenter
     }
 }
-
-
+class MoviesListTableViewSection {
+    var sectionTitle : String = ""
+    var sectionType: SectionType {
+        didSet{
+            switch sectionType {
+            case .allMovies:
+                sectionTitle = "All Movies"
+            case .myMovies:
+                sectionTitle = "My Movies"
+            }
+        }
+    }
+    var movies: [Movie]
+    init(sectionType: SectionType, movies: [Movie]) {
+//        self.sectionTitle = ""
+        self.sectionType = sectionType
+        self.movies = movies
+        defer {
+            self.sectionType = sectionType
+        }
+    }
+}
+enum SectionType {
+    case allMovies
+    case myMovies
+}
 class MoviesListViewController: UIViewController {
     
     //MARK- Outlets
@@ -28,8 +52,9 @@ class MoviesListViewController: UIViewController {
     //MARK- Properties
     var presenter: MoviesListPresenter?
     let configurator = MoviesListConfigurator()
-    var allMovies : [Movie]?
-    
+    private lazy var newMovieDetails: (Movie) -> Void = { (addedMovie) in
+        self.presenter?.addNewMovie(addedMovie)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -54,12 +79,19 @@ class MoviesListViewController: UIViewController {
         
         presenter?.viewWillAppear()
     }
-    
     @objc func add()   {
-        presenter?.navigateToMovieDetailViewController()
+        let storyboard = UIStoryboard(name: "Movies", bundle: nil)
+        if let moviesDetailsViewController  = storyboard.instantiateViewController(withIdentifier: "movieDetailsViewController") as? MovieDetailsViewController {
+            moviesDetailsViewController.newMovieDetails = self.newMovieDetails
+            let navController = UINavigationController(rootViewController: moviesDetailsViewController)
+            self.navigationController?.present(navController, animated: false)
+        }
+        
+//        presenter?.navigateToMovieDetailViewController()
     }
 }
 extension MoviesListViewController: MoviesListPresenterView {
+    
     func retu(image: UIImage, indexpath: IndexPath) {
         if let updateCell = moviesTableView.cellForRow(at: indexpath) {
             (updateCell as! MoviesDetailsCell).configureMovieImage(image: image)
@@ -73,9 +105,6 @@ extension MoviesListViewController: MoviesListPresenterView {
     
     func hideLoading() {
         indicatorView.stopAnimating()
-    }
-    func configureMovies(_ movies: [Movie]) {
-        allMovies = movies
     }
     func onFetchCompleted(with newIndexPathsToReload: [IndexPath]?) {
         // 1
@@ -102,8 +131,15 @@ extension MoviesListViewController: MoviesListPresenterView {
     }
 }
 extension MoviesListViewController:  UITableViewDataSource,UITableViewDelegate {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return presenter?.numberOfSections() ?? 0
+    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return presenter?.titleOfSection(section)
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allMovies == nil ? 0 : presenter?.totalCount() ?? 0
+        
+        return  presenter?.totalCount() ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -117,7 +153,7 @@ extension MoviesListViewController:  UITableViewDataSource,UITableViewDelegate {
             if let img = MoviesAPIClient.sharedClient.cache.object(forKey: (indexPath as NSIndexPath).row as AnyObject) {
                 cell.configureMovieImage(image: img as! UIImage)
             }else{
-                presenter?.fun(url:  allMovies![indexPath.row].posterPath, indexPath: indexPath)
+                presenter?.fun(indexPath: indexPath)
             }
         }
         return cell
@@ -135,6 +171,9 @@ extension MoviesListViewController:  UITableViewDataSource,UITableViewDelegate {
             self.moviesTableView.tableFooterView = indicatorView
             self.moviesTableView.tableFooterView?.isHidden = false
         }
+    }
+    func reloadData() {
+        moviesTableView.reloadData()
     }
 }
 private extension MoviesListViewController {
