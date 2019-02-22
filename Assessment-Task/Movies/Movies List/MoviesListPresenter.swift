@@ -69,7 +69,7 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
                     self.moviesListTableViewSections.append(newSection)
                 }
                 if moviesResponse.page > 1 {
-                    let indexPathsToReload = self.calculateIndexPathsToReload(from: self.getAllMovies()!)
+                    let indexPathsToReload = self.calculateIndexPathsToReload(from: allMovies)
                     self.view?.onFetchCompleted(with: indexPathsToReload)
                 } else {
                     self.view?.onFetchCompleted(with: .none)
@@ -100,6 +100,9 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
     private func calculateIndexPathsToReload(from newMovies: [Movie]) -> [IndexPath] {
         let startIndex = getAllMovies()!.count - newMovies.count
         let endIndex = startIndex + newMovies.count
+        if getMyMovies() != nil{
+            return (startIndex..<endIndex).map { IndexPath(row: $0, section: 1) }
+        }
         return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
     }
     func getImageURL(indexPath: IndexPath) -> String? {
