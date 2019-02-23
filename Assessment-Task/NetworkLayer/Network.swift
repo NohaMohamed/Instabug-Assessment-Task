@@ -17,12 +17,12 @@ protocol Network: class {
     func cancel()
 }
 protocol URLSessionProtocol {
-    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol
 
 }
 
 class NetworkLayer {
-    fileprivate var task: URLSessionTask?
+    fileprivate var task: URLSessionDataTaskProtocol?
     private let session: URLSessionProtocol?
     init(session: URLSessionProtocol) {
         self.session = session
@@ -38,9 +38,6 @@ class NetworkLayer {
         }
         self.task?.resume()
     }
-    func cancel() {
-        self.task?.cancel()
-    }
     func downloadRequest(_ requestData: RequestData, completion: @escaping NetworkCompletion) {
         let session = URLSession.shared
         task = session.downloadTask(with: requestData.baseURL, completionHandler: { (url, response, error) in
@@ -50,7 +47,7 @@ class NetworkLayer {
             else{
                 completion(nil, nil, error)
             }
-        })
+        }) as? URLSessionDataTaskProtocol
         self.task?.resume()
     }
     
@@ -80,4 +77,8 @@ class NetworkLayer {
     
 }
 
-extension URLSession: URLSessionProtocol {}
+extension URLSession: URLSessionProtocol {
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> ()) -> URLSessionDataTaskProtocol {
+        return dataTask(with: request, completionHandler: completionHandler) as URLSessionDataTask
+    }
+}

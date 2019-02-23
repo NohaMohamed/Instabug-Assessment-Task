@@ -23,11 +23,11 @@ final class MoviesAPIClient {
     var session: URLSessionProtocol?
     let cache = NSCache<AnyObject, AnyObject>()
     private init() {}
-    lazy var network = NetworkLayer(session: session ?? MockURLSession())
+    var network :NetworkLayer?
     
     func getNewMovies(page: Int, success: @escaping Success, failure: @escaping Failure){
         let moviesRequestData = MovieRequest.fetchMovies(page: page)
-        network.request(moviesRequestData) { data, response, error in
+        network!.request(moviesRequestData) { data, response, error in
             
             if error != nil {
             }
@@ -58,7 +58,7 @@ final class MoviesAPIClient {
     }
     func getMoviemage(_ imageURL: String,success: @escaping SuccessDownload, failure: @escaping Failure)  {
         let moviesRequestData = MovieRequest.fetchMovieImage(imageURL)
-        network.downloadRequest(moviesRequestData) { data, response, error in
+        network!.downloadRequest(moviesRequestData) { data, response, error in
             
             if error != nil {
             }
@@ -110,18 +110,22 @@ class MockTask: URLSessionDataTask {
 class MockURLSession: URLSessionProtocol {
     
     var nextDataTask = MockURLSessionDataTask()
-    var nextData: Data?
-    var nextError: Error?
+    var data: Data?
+    var networkError: Error?
     private (set) var lastURL: URL?
     
+    init(data:Data? = nil, networkError:Error? = nil) {
+        self.data = data
+        self.networkError = networkError
+    }
     func successHttpURLResponse(request: URLRequest) -> URLResponse {
         return HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: nil)!
     }
     
-    func dataTask(with request: URLRequest, completionHandler: (Data?, URLResponse?, Error?) -> ()) -> URLSessionDataTask {
+    func dataTask(with request: URLRequest, completionHandler: (Data?, URLResponse?, Error?) -> ()) -> URLSessionDataTaskProtocol {
         self.lastURL = request.url
-        completionHandler(nextData, successHttpURLResponse(request: request), nextError)
-        return  URLSessionDataTask()
+        completionHandler(data, successHttpURLResponse(request: request), networkError)
+        return  nextDataTask
     }
 }
 class MockURLSessionDataTask: URLSessionDataTaskProtocol {

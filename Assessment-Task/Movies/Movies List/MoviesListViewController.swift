@@ -73,7 +73,7 @@ class MoviesListViewController: UIViewController {
         moviesTableView.register(cellNib, forCellReuseIdentifier: "MoviesDetailsCell")
         let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
         navigationItem.rightBarButtonItem = addBarButton
-        presenter?.viewWillAppear()
+//        presenter?.viewWillAppear()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -96,7 +96,7 @@ extension MoviesListViewController: MoviesListPresenterView {
     func retu(image: UIImage, indexpath: IndexPath) {
         if let updateCell = moviesTableView.cellForRow(at: indexpath) {
             (updateCell as! MoviesDetailsCell).configureMovieImage(image: image)
-            MoviesAPIClient.sharedClient.cache.setObject(image, forKey: (indexpath as NSIndexPath).row as AnyObject)
+//            MoviesAPIClient.sharedClient.cache.setObject(image, forKey: (indexpath as NSIndexPath).row as AnyObject)
         }
     }
     
@@ -151,11 +151,11 @@ extension MoviesListViewController:  UITableViewDataSource,UITableViewDelegate {
         }else   {
             let movieDetails = presenter?.getMovie(at: indexPath)
             cell.configureCell(with: movieDetails ?? MovieDetailViewModel())
-            if let img = MoviesAPIClient.sharedClient.cache.object(forKey: (indexPath as NSIndexPath).row as AnyObject) {
+         /*   if let img = MoviesAPIClient.sharedClient.cache.object(forKey: (indexPath as NSIndexPath).row as AnyObject) {
                 cell.configureMovieImage(image: img as! UIImage)
             }else{
                 presenter?.fun(indexPath: indexPath)
-            }
+            }*/
         }
         return cell
     }

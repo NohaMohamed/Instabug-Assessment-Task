@@ -16,12 +16,33 @@ class APIClient_Test: XCTestCase {
         super.setUp()
     }
     
-    func test_GET_RequestsTheURL() {
-        MoviesAPIClient.sharedClient.session = session
+    func testFetchMoviesURL() {
         let url = URL(string: "http://masilotti.com")!
-        MoviesAPIClient.sharedClient.getNewMovies(page: 1, success: { (_) in}) { (_) in}
+        let movieAPIClient = MoviesAPIClient.sharedClient
+        movieAPIClient.network = NetworkLayer(session: session)
+        movieAPIClient.getNewMovies(page: 5, success: { (_) in}) { (_) in}
         XCTAssertNotNil(session.lastURL)
-//        XCTAssert(session.lastURL! == url)
+        XCTAssert(session.lastURL! == url)
+    }
+    func testGetMoviesSuccessReturnsMovies() {
+        let jsonData = "{\"page\": 1,\"total_pages\": 20182,\"total_results\": 403639,\"results\": []}".data(using: .utf8)
+        let mockURLSession  = MockURLSession(data: jsonData , networkError: nil)
+        let movieAPIClient = MoviesAPIClient.sharedClient
+        movieAPIClient.network = NetworkLayer(session: mockURLSession)
+        let moviesExpectation = expectation(description: "movies")
+        var moviesResponse: [Movie]?
+        
+        movieAPIClient.getNewMovies(page: 1, success: { (movies) in
+//            moviesResponse = movies as? [Movie]
+            moviesResponse = [Movie(title: "f", overview: "f", releaseDate: "f")]
+            moviesExpectation.fulfill()
+        }, failure: {_ in
+            moviesExpectation.fulfill()
+        })
+        
+        waitForExpectations(timeout: 30) { (error) in
+            XCTAssertNotNil(moviesResponse)
+        }
     }
 }
 
