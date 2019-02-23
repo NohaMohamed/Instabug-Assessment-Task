@@ -20,11 +20,11 @@ enum Result<String>{
 final class MoviesAPIClient {
     
     static let sharedClient = MoviesAPIClient()
+    var session: URLSessionProtocol?
     let cache = NSCache<AnyObject, AnyObject>()
-    private init() {
-    }
+    private init() {}
+    lazy var network = NetworkLayer(session: session ?? MockURLSession())
     
-    let network = NetworkLayer()
     func getNewMovies(page: Int, success: @escaping Success, failure: @escaping Failure){
         let moviesRequestData = MovieRequest.fetchMovies(page: page)
         network.request(moviesRequestData) { data, response, error in
@@ -90,3 +90,49 @@ final class MoviesAPIClient {
         }
     }
 }
+class MockTask: URLSessionDataTask {
+    private let data: Data?
+    private let urlResponse: URLResponse?
+    private let networkError: Error?
+    
+    var completionHandler: NetworkCompletion?
+    init(data: Data?, urlResponse: URLResponse?, networkError: Error?) {
+        self.data = data
+        self.urlResponse = urlResponse
+        self.networkError = networkError
+    }
+    override func resume() {
+        DispatchQueue.main.async {
+            self.completionHandler!(self.data, self.urlResponse, self.networkError)
+        }
+    }
+}
+class MockURLSession: URLSessionProtocol {
+    
+    var nextDataTask = MockURLSessionDataTask()
+    var nextData: Data?
+    var nextError: Error?
+    private (set) var lastURL: URL?
+    
+    func successHttpURLResponse(request: URLRequest) -> URLResponse {
+        return HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: nil)!
+    }
+    
+    func dataTask(with request: URLRequest, completionHandler: (Data?, URLResponse?, Error?) -> ()) -> URLSessionDataTask {
+        self.lastURL = request.url
+        completionHandler(nextData, successHttpURLResponse(request: request), nextError)
+        return  URLSessionDataTask()
+    }
+}
+class MockURLSessionDataTask: URLSessionDataTaskProtocol {
+    private (set) var resumeWasCalled = false
+    
+    func resume() {
+        resumeWasCalled = true
+    }
+}
+extension URLSessionDataTask: URLSessionDataTaskProtocol {}
+protocol URLSessionDataTaskProtocol {
+    func resume()
+}
+typealias DataTaskResult = (Data?, URLResponse?, Error?) -> ()

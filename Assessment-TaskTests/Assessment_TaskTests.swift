@@ -35,5 +35,23 @@ class Assessment_TaskTests: XCTestCase {
         vc.viewDidLoad()
         XCTAssertNotNil(vc.view)
     }
+    /*func testGetMoviesSuccessReturnsMovies() {
+        let jsonData = "[{\"title\": \"Mission Impossible Fallout\",\"detail\": \"A Tom Cruise Movie\"}]".data(using: .utf8)
+        let mockURLSession  = MockURLSession(data: jsonData, urlResponse: nil, error: nil)
+        let apiRespository = MoviesAPIClient.sharedClient
+        apiRespository.session = mockURLSession
+        let moviesExpectation = expectation(description: "movies")
+        var moviesResponse: [Movie]?
+        
+        apiRespository.getNewMovies(page: 1, success: { (movies) in
+            moviesResponse = movies as? [Movie]
+            moviesExpectation.fulfill()
+        }) { (error) in
+            
+        }
+        waitForExpectations(timeout: 1) { (error) in
+            XCTAssertNotNil(moviesResponse)
+        }
+    }*/
 
 }

@@ -51,7 +51,6 @@ class MovieDetailsViewController: UIViewController ,UINavigationControllerDelega
     }
     @objc func addNewMovieDetails(){
         self.dismiss(animated: true) {
-//            let movieDetails = MoviesListTableViewSection(sectionType: .myMovies, movies: [])
             let movie = Movie(title: "new", overview: "Nemo", releaseDate: "24-8")
             self.newMovieDetails!(movie)
         }
