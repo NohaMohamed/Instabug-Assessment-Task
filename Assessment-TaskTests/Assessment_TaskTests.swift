@@ -30,5 +30,10 @@ class Assessment_TaskTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
+    func testCellForRowAt()  {
+        let vc = ViewController()
+        vc.viewDidLoad()
+        XCTAssertNotNil(vc.view)
+    }
 
 }

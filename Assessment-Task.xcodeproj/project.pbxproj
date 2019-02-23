@@ -35,6 +35,7 @@
 		D0A352AB22177CC300385D1D /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A352AA22177CC300385D1D /* Reusable.swift */; };
 		D0A352AE221782F700385D1D /* FetchMoviesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A352AD221782F700385D1D /* FetchMoviesUseCase.swift */; };
 		D0A352B222178AB400385D1D /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A352B122178AB400385D1D /* Movie.swift */; };
+		D0C125222220D71700093D50 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C125212220D71700093D50 /* test.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		D0A352AA22177CC300385D1D /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		D0A352AD221782F700385D1D /* FetchMoviesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchMoviesUseCase.swift; sourceTree = "<group>"; };
 		D0A352B122178AB400385D1D /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		D0C125212220D71700093D50 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +214,7 @@
 				D012422D221B7F8A002B61B7 /* Movies List */,
 				D0A352AC22177D5300385D1D /* Custom Views */,
 				D0A352B122178AB400385D1D /* Movie.swift */,
+				D0C125212220D71700093D50 /* test.swift */,
 			);
 			path = Movies;
 			sourceTree = "<group>";
@@ -383,6 +386,7 @@
 				D0A352A1221740E200385D1D /* MoviesRequest.swift in Sources */,
 				D00DBFCE221975B600E4E440 /* UIImageView+Instabug.swift in Sources */,
 				D075858C2218551600E01D62 /* MovieDetailsCustomView.swift in Sources */,
+				D0C125222220D71700093D50 /* test.swift in Sources */,
 				D075857D2218507F00E01D62 /* DataResponseError.swift in Sources */,
 				D0A3526A2216E7DD00385D1D /* AppDelegate.swift in Sources */,
 				D00DBFD02219789600E4E440 /* MovieImageRequest.swift in Sources */,
