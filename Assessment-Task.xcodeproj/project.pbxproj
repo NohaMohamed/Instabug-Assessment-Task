@@ -120,14 +120,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D0094EAC2221F6F100508533 /* Storyboard */ = {
-			isa = PBXGroup;
-			children = (
-				D01807CB221CA21900A8C93C /* Movies.storyboard */,
-			);
-			path = Storyboard;
-			sourceTree = "<group>";
-		};
 		D0094EAD2221F70100508533 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -152,6 +144,14 @@
 				D00BE6B02222F16700853767 /* Info.plist */,
 			);
 			path = AssessmentTaskUITests;
+			sourceTree = "<group>";
+		};
+		D00BE6B622231AC300853767 /* Movies Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				D01807CB221CA21900A8C93C /* Movies.storyboard */,
+			);
+			path = "Movies Storyboard";
 			sourceTree = "<group>";
 		};
 		D012422D221B7F8A002B61B7 /* Movies List */ = {
@@ -238,8 +238,8 @@
 		D0A352A22217614300385D1D /* Movies */ = {
 			isa = PBXGroup;
 			children = (
+				D00BE6B622231AC300853767 /* Movies Storyboard */,
 				D0094EAD2221F70100508533 /* Model */,
-				D0094EAC2221F6F100508533 /* Storyboard */,
 				D012422E221B7FA7002B61B7 /* Add Movies Details */,
 				D012422D221B7F8A002B61B7 /* Movies List */,
 				D0A352AC22177D5300385D1D /* Custom Views */,

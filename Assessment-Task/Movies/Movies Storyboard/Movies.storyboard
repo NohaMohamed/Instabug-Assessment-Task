@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rqx-CN-pu0">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Movies List View Controller-->
+        <scene sceneID="gQR-6r-Ieq">
+            <objects>
+                <viewController id="mTi-fb-ROG" customClass="MoviesListViewController" customModule="Assessment_Task" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zMK-co-BK6">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="em6-kp-7tl">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="0c8-Hp-5sc">
+                                <rect key="frame" x="169" y="347" width="37" height="37"/>
+                                <color key="color" red="0.90723544359999997" green="0.049790762359999997" blue="0.8288562894" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="em6-kp-7tl" firstAttribute="leading" secondItem="7us-kn-ErR" secondAttribute="leading" id="2Bk-qc-vSt"/>
+                            <constraint firstItem="0c8-Hp-5sc" firstAttribute="centerY" secondItem="7us-kn-ErR" secondAttribute="centerY" id="63b-Al-6EP"/>
+                            <constraint firstItem="em6-kp-7tl" firstAttribute="trailing" secondItem="7us-kn-ErR" secondAttribute="trailing" id="N9Z-K2-BES"/>
+                            <constraint firstItem="em6-kp-7tl" firstAttribute="top" secondItem="zMK-co-BK6" secondAttribute="top" id="R2B-Pr-tS9"/>
+                            <constraint firstItem="7us-kn-ErR" firstAttribute="bottom" secondItem="em6-kp-7tl" secondAttribute="bottom" id="Sqr-Ee-Kxt"/>
+                            <constraint firstItem="0c8-Hp-5sc" firstAttribute="centerX" secondItem="7us-kn-ErR" secondAttribute="centerX" id="xXh-K7-dFe"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="7us-kn-ErR"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="kwP-X0-Ixh"/>
+                    <connections>
+                        <outlet property="indicatorView" destination="0c8-Hp-5sc" id="VrJ-cC-5pH"/>
+                        <outlet property="moviesTableView" destination="em6-kp-7tl" id="zjK-g9-JBu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FEH-I9-BFo" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="836" y="-2.2488755622188905"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="bXq-GT-9bk">
+            <objects>
+                <navigationController storyboardIdentifier="PhoneVC" automaticallyAdjustsScrollViewInsets="NO" id="Rqx-CN-pu0" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rsk-TC-Zg6">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="mTi-fb-ROG" kind="relationship" relationship="rootViewController" id="aQJ-Ai-d0K"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rpH-2M-cJH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-103.2" y="656.22188905547227"/>
+        </scene>
+        <!--Movie Details View Controller-->
+        <scene sceneID="61q-Q2-AN6">
+            <objects>
+                <viewController storyboardIdentifier="movieDetailsViewController" id="79f-gt-BAY" customClass="MovieDetailsViewController" customModule="Assessment_Task" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oT4-ae-Wxx">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NbP-tP-GRh" customClass="MovieDetailsCustomView" customModule="Assessment_Task" customModuleProvider="target">
+                                <rect key="frame" x="16" y="36" width="343" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" placeholder="YES" id="TxH-xt-2l5"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="NbP-tP-GRh" firstAttribute="centerX" secondItem="eMz-DV-Sbx" secondAttribute="centerX" id="Vfy-AM-x00"/>
+                            <constraint firstItem="NbP-tP-GRh" firstAttribute="leading" secondItem="eMz-DV-Sbx" secondAttribute="leading" constant="16" id="YXd-eG-NOS"/>
+                            <constraint firstItem="NbP-tP-GRh" firstAttribute="top" secondItem="eMz-DV-Sbx" secondAttribute="top" constant="16" id="hz0-0f-2wF"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="eMz-DV-Sbx"/>
+                    </view>
+                    <connections>
+                        <outlet property="moviesDetailsCard" destination="NbP-tP-GRh" id="Tea-6R-mv8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fEx-ah-dH8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="10" y="-172"/>
+        </scene>
+    </scenes>
+</document>
