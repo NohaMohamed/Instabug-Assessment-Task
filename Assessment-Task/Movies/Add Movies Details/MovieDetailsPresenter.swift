@@ -8,10 +8,13 @@
 
 import UIKit
 protocol MovieDetailsPresenter {
-    func viewWillAppear()
+    func mapMoviewDetailsUIModel() -> MovieDetailViewModel
+    func configureMovieImage(_ image: UIImage?)
+    func configureMovieDetailsData(title: String? , releaseDate: String?, overview: String?)
 }
 
 protocol MovieDetailsPresenterView: class {
+    func configureAddedMovieUIModel(_ movie: MovieDetailViewModel)
 }
 class MovieDetailsPresenterImplementation : MovieDetailsPresenter {
     
@@ -19,18 +22,25 @@ class MovieDetailsPresenterImplementation : MovieDetailsPresenter {
     
     fileprivate weak var view: MovieDetailsPresenterView?
     private var movie: Movie?
+    private var movieDetailsCard = MovieDetailViewModel()
     
-    func viewWillAppear() {
-    }
     init(view: MovieDetailsPresenterView) {
         self.view = view
     }
-    func mapMovieDetailsUIMode(_ movie: Movie) ->  MovieDetailViewModel {
-        var movieDetailViewModel = MovieDetailViewModel()
-        movieDetailViewModel.title = movie.title
-        movieDetailViewModel.overview = movie.overview
-        movieDetailViewModel.releaseDate = movie.releaseDate
-        movieDetailViewModel.movieDetailsCardStatus = .view
-        return movieDetailViewModel
+    func mapMoviewDetailsUIModel() -> MovieDetailViewModel {
+        movieDetailsCard.movieDetailsCardStatus = .add
+        movieDetailsCard.overview = "Write your description"
+        return movieDetailsCard
     }
+    func configureMovieImage(_ image: UIImage?) {
+        movieDetailsCard.image = image
+    }
+    func configureMovieDetailsData(title: String?, releaseDate: String?, overview: String?) {
+        movieDetailsCard.title = title ?? ""
+        movieDetailsCard.overview = overview ?? ""
+        movieDetailsCard.releaseDate = releaseDate ?? ""
+        view?.configureAddedMovieUIModel(movieDetailsCard)
+    }
+    
+
 }

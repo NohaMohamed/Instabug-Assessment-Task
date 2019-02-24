@@ -23,9 +23,9 @@ class FetchMoviesUseCase: BaseUseCase {
             return
         }
         isFetchInProgress = true
-        var mo = MoviesAPIClient.sharedClient
-        mo.network = NetworkLayer(session: URLSession.shared)
-        mo.getNewMovies(page: toBeLoadedPage, success: { [weak self] (model) in
+        let movieAPIClient = MoviesAPIClient.sharedClient
+        movieAPIClient.network = NetworkLayer(session: URLSession.shared)
+        movieAPIClient.getNewMovies(page: toBeLoadedPage, success: { [weak self] (model) in
                 self?.isFetchInProgress = false
             success(model as! MovieApiResponse)
             print(model as! MovieApiResponse)

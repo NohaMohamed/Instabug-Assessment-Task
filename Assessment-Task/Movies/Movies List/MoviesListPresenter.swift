@@ -8,16 +8,16 @@
 
 import UIKit
 protocol MoviesListPresenter {
-    func viewWillAppear()
+    func fetchAvailableMovies()
     func moviesCount() -> Int
-    func fun(indexPath: IndexPath)
-    func mapMovieDetailsUIMode(_ movie: Movie) ->  MovieDetailViewModel
+    func downloadMovieImage(_ indexPath: IndexPath)
+    func mapMovieDetailsUIModel(_ movie: Movie) ->  MovieDetailViewModel
     func totalCount() -> Int
     func getMovie(at index: IndexPath) -> MovieDetailViewModel
-    func navigateToMovieDetailViewController()
+    func navigateToMovieDetailViewController(_ newMovieDetails: @escaping addMovieDetailsAction)
     func titleOfSection(_ section: Int) -> String
     func numberOfSections() -> Int
-    func addNewMovie(_ movie: Movie)
+    func addNewMovie(_ movie: MovieDetailViewModel)
     func numberOfRows(_ section: Int) -> Int
 }
 
@@ -26,7 +26,7 @@ protocol MoviesListPresenterView: class {
     func hideLoading()
     func reloadData()
     func onFetchCompleted(with newIndexPathsToReload: [IndexPath]?)
-    func retu(image: UIImage,indexpath: IndexPath)
+    func displayMovieImage(image: UIImage,indexpath: IndexPath)
 }
 class MoviesListPresenterImplementation : MoviesListPresenter {
     
@@ -37,8 +37,8 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
     private var router: MoviesListNavigator?
     private var currentPage = 1
     fileprivate var totalMoviesResult = 0
+    private var addedImages: [UIImage] = []
     var moviesListTableViewSections: [MoviesListTableViewSection] = []
-//    lazy fileprivate var movies: [Movie]? = moviesListTableViewSections.first(where: {$0.sectionType == .allMovies})?.movies
     
     //MARK -: Intialization
     
@@ -49,23 +49,26 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
         self.fetchMoviesUseCase = fetchMoviesUseCase
         self.router = router
     }
-    func viewWillAppear() {
-        fetchAvailableMovies()
-    }
     
     //MARK: - Calling API
-    private func fetchAvailableMovies() {
+    
+     func fetchAvailableMovies() {
         fetchMoviesUseCase.setPageNumber(currentPage)
         fetchMoviesUseCase.execute { movieApiResponse in
             DispatchQueue.main.async {
                 let moviesResponse = movieApiResponse as! MovieApiResponse
                 let allMovies = moviesResponse.movies
+                var allUIModel = [MovieDetailViewModel]()
                 self.totalMoviesResult = moviesResponse.numberOfResults
                 self.currentPage += 1
+                for movie in allMovies{
+                    allUIModel.append(self.mapMovieDetailsUIModel(movie))
+                }
                 if let index = self.moviesListTableViewSections.index(where: {$0.sectionType == .allMovies}) {
-                    self.moviesListTableViewSections[index].movies += allMovies
+                    self.moviesListTableViewSections[index].movies += allUIModel
+
                 }else{
-                    let newSection = MoviesListTableViewSection(sectionType: .allMovies,movies: allMovies)
+                    let newSection = MoviesListTableViewSection(sectionType: .allMovies,movies: allUIModel)
                     self.moviesListTableViewSections.append(newSection)
                 }
                 if moviesResponse.page > 1 {
@@ -78,22 +81,23 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
             }
         }
     }
-    func fun(indexPath: IndexPath) {
+    func downloadMovieImage(_ indexPath: IndexPath) {
+        let movieAPIClient = MoviesAPIClient.sharedClient
+        movieAPIClient.network = NetworkLayer(session: URLSession.shared)
         let imageCache = MoviesAPIClient.sharedClient.cache
         if (imageCache.object(forKey: (indexPath as NSIndexPath).row as AnyObject) != nil) {
             let image = imageCache.object(forKey: (indexPath as NSIndexPath).row as AnyObject) as? UIImage
-            view?.retu(image: image!, indexpath: indexPath)
+            view?.displayMovieImage(image: image!, indexpath: indexPath)
         }else{
             guard let url = getImageURL(indexPath: indexPath) else{
                 return
             }
-            MoviesAPIClient.sharedClient.getMoviemage(url, success: { response in
+            movieAPIClient.getMoviemage(url, success: { response in
                 DispatchQueue.main.async {
                     let image = UIImage(data: response)
-                    self.view?.retu(image: image!, indexpath: indexPath)
+                    self.view?.displayMovieImage(image: image!, indexpath: indexPath)
                 }
             }) { (error) in
-                print("la2aaa")
             }
         }
     }
@@ -112,28 +116,34 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
         let url = movies[indexPath.row].posterPath
         return url
     }
-    private func getAllMovies() -> [Movie]? {
+    
+    //MARK:- Configure movies sections
+    
+    private func getAllMovies() -> [MovieDetailViewModel]? {
         return moviesListTableViewSections.first(where: {$0.sectionType == .allMovies})?.movies ?? nil
     }
-    private func getMyMovies() -> [Movie]? {
+    private func getMyMovies() -> [MovieDetailViewModel]? {
         return moviesListTableViewSections.first(where: {$0.sectionType == .myMovies})?.movies ?? nil
     }
+    
     //MARK:- UI Handling
     
     func getMovie(at index: IndexPath) -> MovieDetailViewModel {
-        let movies = moviesListTableViewSections[index.section].movies
-        let movieDetails = mapMovieDetailsUIMode(movies[index.row])
-        return movieDetails
+        let movies = moviesListTableViewSections[index.section].movies[index.row]
+        return movies
     }
-    func mapMovieDetailsUIMode(_ movie: Movie) ->  MovieDetailViewModel {
+    func mapMovieDetailsUIModel(_ movie: Movie) ->  MovieDetailViewModel {
        var movieDetailViewModel = MovieDetailViewModel()
         movieDetailViewModel.title = movie.title
         movieDetailViewModel.overview = movie.overview
         movieDetailViewModel.releaseDate = movie.releaseDate
+        movieDetailViewModel.posterPath = movie.posterPath
         movieDetailViewModel.movieDetailsCardStatus = .view
         return movieDetailViewModel
     }
-    func addNewMovie(_ movie: Movie) {
+    // MARK:- Handle Add Movie Details
+    
+    func addNewMovie(_ movie: MovieDetailViewModel) {
         if let index = self.moviesListTableViewSections.index(where: {$0.sectionType == .myMovies}) {
             self.moviesListTableViewSections[index].movies.append(movie)
         }else{
@@ -144,9 +154,11 @@ class MoviesListPresenterImplementation : MoviesListPresenter {
         }
         view?.reloadData()
     } 
-    func navigateToMovieDetailViewController() {
+    func navigateToMovieDetailViewController(_ newMovieDetails: @escaping addMovieDetailsAction) {
+        router?.configureAddMovieAction(newMovieDetails)
         router?.navigate(to: .addMovieDetails)
     }
+    
 }
 // MARK: - Handle TableView
 extension MoviesListPresenterImplementation {

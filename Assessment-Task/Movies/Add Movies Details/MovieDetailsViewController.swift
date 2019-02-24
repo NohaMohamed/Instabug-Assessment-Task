@@ -8,56 +8,87 @@
 
 import UIKit
 
-class MovieDetailsConfigurator {
-    
-    func configure(moviesListViewController: MoviesListViewController) {
+import UIKit
+
+class MovieDetailsConfigurator: NSObject {
+    func configure(movieDetailsViewController: MovieDetailsViewController) {
+        let presenter = MovieDetailsPresenterImplementation(view: movieDetailsViewController)
+        movieDetailsViewController.presenter = presenter
     }
 }
 
-class MovieDetailsViewController: UIViewController ,UINavigationControllerDelegate , UIImagePickerControllerDelegate {
+class MovieDetailsViewController: UIViewController  {
     
+    //MARK:- Outlets
+    @IBOutlet fileprivate weak var moviesDetailsCard: MovieDetailsCustomView!
+
     //MARK- Properties
-    var presenter: MoviesListPresenter?
-    let configurator = MoviesListConfigurator()
-    @IBOutlet private weak var moviesDetailsCard: MovieDetailsCustomView!
-    private var movieDetailsCard = MovieDetailViewModel()
+    var presenter: MovieDetailsPresenter?
+    private var movieDetailsCard: MovieDetailViewModel!
     private var imagePicker = UIImagePickerController()
-    var newMovieDetails: ((Movie) -> Void)?
+    var newMovieDetails: addMovieDetailsAction?
+    var addedMovie =  MovieDetailViewModel()
+    let configurator = MovieDetailsConfigurator()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let addBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(addNewMovieDetails))
-        navigationItem.rightBarButtonItem = addBarButton
-        
+        configurator.configure(movieDetailsViewController: self)
+        setupStyle()
+        self.imagePicker.delegate = self
+        setupNavigationItem()
+        setupAddMovieImage()
+        moviesDetailsCard.configureMovieCard(with: movieDetailsCard)
+        self.accessibilityLabel = "MovieDetailsViewController"
+    }
+    
+    //MARK:- Setup View Style
+    
+    private func setupStyle(){
         self.view.backgroundColor = .white
-        movieDetailsCard.movieDetailsCardStatus = .add
+        self.movieDetailsCard = presenter?.mapMoviewDetailsUIModel()
+    }
+   private func setupNavigationItem() {
+        let addBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(addNewMovieDetails))
+        addBarButton.accessibilityIdentifier = "done"
+        navigationItem.rightBarButtonItem = addBarButton
+    }
+    private func setupAddMovieImage(){
         movieDetailsCard.movieImageAddAction = { [weak self] in
             if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
-                print("Button capture")
                 
-                self?.imagePicker.delegate = self
+                
                 self?.imagePicker.sourceType = .savedPhotosAlbum;
                 self?.imagePicker.allowsEditing = false
                 
                 self?.present(self!.imagePicker, animated: true, completion: nil)
             }
         }
-        movieDetailsCard.overview = "Write your desc"
-        moviesDetailsCard.configureMovieCard(with: movieDetailsCard)
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
+    @objc func addNewMovieDetails() {
+        let movie = self.moviesDetailsCard.fetchMovieDetailsData()
+        self.presenter?.configureMovieDetailsData(title: movie.0, releaseDate: movie.2, overview: movie.1)
     }
-    @objc func addNewMovieDetails(){
-        self.dismiss(animated: true) {
-            let movie = Movie(title: "new", overview: "Nemo", releaseDate: "24-8")
-            self.newMovieDetails!(movie)
+}
+extension MovieDetailsViewController: UINavigationControllerDelegate , UIImagePickerControllerDelegate{
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            self.moviesDetailsCard.configureMovieImage(with: image)
+            self.presenter?.configureMovieImage(image)
         }
+        
+        imagePicker.dismiss(animated: true, completion: nil);
     }
-    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
-        self.dismiss(animated: true, completion: { () -> Void in
-            
-        })
+}
+extension MovieDetailsViewController: MovieDetailsPresenterView{
+    func configureAddedMovieUIModel(_ movie: MovieDetailViewModel) {
+        guard let movieDetailsAction = newMovieDetails  else {
+            self.dismiss(animated: true, completion: nil)
+            return
+        }
+        movieDetailsAction(movie)
+        self.dismiss(animated: true, completion: nil)
     }
+    
+    
 }

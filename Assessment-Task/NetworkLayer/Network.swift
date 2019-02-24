@@ -18,21 +18,24 @@ protocol Network: class {
 }
 protocol URLSessionProtocol {
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol
-
 }
 
 class NetworkLayer {
-    fileprivate var task: URLSessionDataTaskProtocol?
+    
+    //MARK:- Properties
+    fileprivate var task: URLSessionTask?
     private let session: URLSessionProtocol?
+    
     init(session: URLSessionProtocol) {
         self.session = session
     }
+    
     func request(_ requestData: RequestData, completion: @escaping NetworkCompletion) {
         do {
             let request = try self.buildRequest(from: requestData)
             task = session!.dataTask(with: request, completionHandler: { data, response, error in
                 completion(data, response, error)
-            })
+            }) as? URLSessionTask
         }catch {
             completion(nil, nil, error)
         }
@@ -47,17 +50,17 @@ class NetworkLayer {
             else{
                 completion(nil, nil, error)
             }
-        }) as? URLSessionDataTaskProtocol
+        })
         self.task?.resume()
     }
     
     fileprivate func buildRequest(from requestData: RequestData) throws -> URLRequest {
         
-        var request = URLRequest(url: requestData.baseURL.appendingPathComponent(requestData.path),
+        var request = URLRequest(url: requestData.baseURL,
                                  cachePolicy: .reloadIgnoringLocalAndRemoteCacheData,
                                  timeoutInterval: 10.0)
         
-//        request.httpMethod = requestData.httpMethod.rawValue
+            request.httpMethod = requestData.method.rawValue
             if let requestDataParameters = requestData.parameters  {
                 try self.configureParameters(urlParameters: requestDataParameters, request: &request)
             }else {

@@ -27,14 +27,6 @@ extension MovieRequest: RequestData {
         return url
     }
     
-    public var path: String {
-        switch self {
-        case .fetchMovies(let page):
-            return ""
-        default : return ""
-        }
-    }
-    
     public var method: HTTPMethod {
         return .get
     }
@@ -48,9 +40,6 @@ extension MovieRequest: RequestData {
             return nil
     }}
     
-    public var headers: HTTPHeaders? {
-        return nil
-    }
 }
 
 

@@ -7,18 +7,6 @@
 //
 import Foundation
 
-struct Movies {
-    var moviesSectionTitle : String?
-    var  moviesSections:  [Movie]? = nil {
-        didSet {
-            
-        }
-    }
-    
-    init() {
-        
-    }
-}
 struct MovieApiResponse {
     let page: Int
     let numberOfResults: Int
@@ -55,6 +43,7 @@ struct Movie {
     let releaseDate: String
     var rating: Double = 0.0
     let overview: String
+    
     
     init(title: String, overview: String, releaseDate: String) {
         self.title = title

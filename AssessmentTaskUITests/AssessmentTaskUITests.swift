@@ -1,14 +1,14 @@
 //
-//  Assessment_TaskUITests.swift
-//  Assessment-TaskUITests
+//  AssessmentTaskUITests.swift
+//  AssessmentTaskUITests
 //
-//  Created by Noha  on 2/15/19.
+//  Created by Noha  on 2/24/19.
 //  Copyright © 2019 Noha . All rights reserved.
 //
 
 import XCTest
 
-class Assessment_TaskUITests: XCTestCase {
+class AssessmentTaskUITests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -30,6 +30,16 @@ class Assessment_TaskUITests: XCTestCase {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
-    func testClickToAddMovie()  {
+    func testNavigateToAddMovie()  {
+        let app = XCUIApplication()
+        let addButton = app.buttons["add"]
+        let addButtonExist = addButton.waitForExistence(timeout: 5)
+        if addButtonExist {
+            addButton.tap()
+            addButton.navigationBars["Assessment_Task.MovieDetailsView"].buttons["done"].tap()
+            
+        }
+        
+    
     }
 }

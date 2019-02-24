@@ -13,7 +13,6 @@
             <connections>
                 <outlet property="contentview" destination="iN0-l3-epB" id="QdT-FB-tib"/>
                 <outlet property="dateTextField" destination="hu1-OY-yp4" id="KEt-32-Dfu"/>
-                <outlet property="defaultHeight" destination="mWr-6X-yid" id="6az-Qi-uiq"/>
                 <outlet property="movieImage" destination="tAr-v5-pFE" id="khG-X8-Lej"/>
                 <outlet property="overviewTextView" destination="XJV-Cv-7r4" id="Jno-3g-Ear"/>
                 <outlet property="titleTextField" destination="AJT-J6-dat" id="YcM-JO-469"/>

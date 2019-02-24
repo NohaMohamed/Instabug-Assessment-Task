@@ -14,14 +14,15 @@ enum MovieDetailsCardStatus {
 }
 class MovieDetailsCustomView: UIView {
     
+    //MARK:- Outlets
     @IBOutlet private weak var movieImage: UIImageView!
     @IBOutlet private var contentview: UIView!
     @IBOutlet private weak var titleTextField: UITextField!
     @IBOutlet private weak var dateTextField: UITextField!
     @IBOutlet private weak var overviewTextView: UITextView!
+    private var imageAction: movieImageAction?
     
-    @IBOutlet weak var defaultHeight: NSLayoutConstraint!
-    private var action: (() -> Void)?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -44,47 +45,55 @@ class MovieDetailsCustomView: UIView {
             titleTextField.text = mappedModel.title
             overviewTextView.text = mappedModel.overview
             dateTextField.text = mappedModel.releaseDate
-            var frame = self.overviewTextView.frame
-            frame.size.height = self.overviewTextView.contentSize.height
-//           defaultHeight.constant = self.overviewTextView.contentSize.height
-            overviewTextView.translatesAutoresizingMaskIntoConstraints = false
-            overviewTextView.isScrollEnabled = false
-            self.overviewTextView.frame = frame
-            
-            movieImage.alpha = 1
-            dateTextField.alpha = 1
-            overviewTextView.alpha = 1
-            titleTextField.alpha = 1
-            if mappedModel.movieDetailsCardStatus == .view {
-                dateTextField.setupNonEditable()
-                titleTextField.setupNonEditable()
-            }else {
-                if let ac = uiModel?.movieImageAddAction { 
-                    self.action = ac
-                    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
-                    movieImage.isUserInteractionEnabled = true
-                    movieImage.addGestureRecognizer(tapGestureRecognizer)
-                }
-                
+            showContentOfView()
+            configureViewState(mappedModel.movieDetailsCardStatus)
+            setupTextView()
+            if let action = mappedModel.movieImageAddAction {
+                setupImageAction(action)
             }
             layoutIfNeeded()
         }else{
-            hideView()
+            hideContentOfView()
         }
         
     }
     
     @objc func imageTapped() {
-        guard action != nil else {
+        guard imageAction != nil else {
             return
         }
-        action!()
+        imageAction!()
     }
-    func hideView()  {
+    private func configureViewState(_ state: MovieDetailsCardStatus){
+        if state == .view {
+            dateTextField.setupNonEditable()
+            titleTextField.setupNonEditable()
+        }
+    }
+    private func setupImageAction(_ imageAction: @escaping movieImageAction){
+        self.imageAction = imageAction
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        movieImage.isUserInteractionEnabled = true
+        movieImage.addGestureRecognizer(tapGestureRecognizer)
+    }
+    private func setupTextView(){
+        var frame = self.overviewTextView.frame
+        frame.size.height = self.overviewTextView.contentSize.height
+        overviewTextView.translatesAutoresizingMaskIntoConstraints = false
+        overviewTextView.isScrollEnabled = false
+        self.overviewTextView.frame = frame
+    }
+    private func hideContentOfView()  {
         movieImage.alpha = 0
         dateTextField.alpha = 0
         overviewTextView.alpha = 0
         titleTextField.alpha = 0
+    }
+    private func showContentOfView(){
+        movieImage.alpha = 1
+        dateTextField.alpha = 1
+        overviewTextView.alpha = 1
+        titleTextField.alpha = 1
     }
     func initializeView() {
         Bundle.main.loadNibNamed("MovieDetailsCustomView", owner: self, options: nil)
@@ -92,5 +101,8 @@ class MovieDetailsCustomView: UIView {
         contentview.frame = self.bounds
         contentview.autoresizingMask = [.flexibleWidth,.flexibleHeight]
         
+    }
+    func fetchMovieDetailsData()  -> (String,String,String) {
+        return (titleTextField.text ?? "" , overviewTextView.text ?? "" , releaseDate: dateTextField.text ?? "")
     }
 }

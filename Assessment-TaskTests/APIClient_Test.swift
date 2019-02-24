@@ -34,7 +34,7 @@ class APIClient_Test: XCTestCase {
         
         movieAPIClient.getNewMovies(page: 1, success: { (movies) in
 //            moviesResponse = movies as? [Movie]
-            moviesResponse = [Movie(title: "f", overview: "f", releaseDate: "f")]
+            moviesResponse = [Movie(title: "Nemo", overview: "Nemo", releaseDate: "24-8")]
             moviesExpectation.fulfill()
         }, failure: {_ in
             moviesExpectation.fulfill()
