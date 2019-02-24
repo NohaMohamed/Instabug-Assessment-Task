@@ -77,12 +77,8 @@ extension MoviesListViewController: MoviesListPresenterView {
         moviesTableView.reloadRows(at: indexPathsToReload, with: .automatic)
     }
     
-    func onFetchFailed(with reason: String) {
-        /* indicatorView.stopAnimating()
-         
-         let title = "Warning".localizedString
-         let action = UIAlertAction(title: "OK".localizedString, style: .default)
-         displayAlert(with: title , message: reason, actions: [action])*/
+    func onFetchFailed() {
+        hideLoading()
     }
 }
 extension MoviesListViewController:  UITableViewDataSource,UITableViewDelegate {

@@ -10,7 +10,6 @@ import XCTest
 @testable import Assessment_Task
 
 class APIClient_Test: XCTestCase {
-    let session = MockURLSession()
     
     override func setUp() {
         super.setUp()
@@ -18,13 +17,14 @@ class APIClient_Test: XCTestCase {
     
     func testFetchMoviesURL() {
         let url = URL(string: "http://masilotti.com")!
+        let session = MockURLSession()
         let movieAPIClient = MoviesAPIClient.sharedClient
         movieAPIClient.network = NetworkLayer(session: session)
         movieAPIClient.getNewMovies(page: 5, success: { (_) in}) { (_) in}
         XCTAssertNotNil(session.lastURL)
         XCTAssert(session.lastURL! == url)
     }
-    func testGetMoviesSuccessReturnsMovies() {
+    func testFetchMoviesSuccess() {
         let jsonData = "{\"page\": 1,\"total_pages\": 20182,\"total_results\": 403639,\"results\": []}".data(using: .utf8)
         let mockURLSession  = MockURLSession(data: jsonData , networkError: nil)
         let movieAPIClient = MoviesAPIClient.sharedClient
@@ -42,6 +42,23 @@ class APIClient_Test: XCTestCase {
         
         waitForExpectations(timeout: 30) { (error) in
             XCTAssertNotNil(moviesResponse)
+        }
+    }
+    func testFetchMoviesError() {
+        let movieAPIClient = MoviesAPIClient.sharedClient
+        let error = NSError(domain: "error", code: 500, userInfo: nil)
+        let mockURLSession  = MockURLSession(data: nil, networkError: error)
+        movieAPIClient.network = NetworkLayer(session: mockURLSession)
+        let errorExpectation = expectation(description: "error")
+        var errorResponse: Error?
+        movieAPIClient.getNewMovies(page: 1, success: { (movies) in
+            print(movies)
+        }, failure: { (error) in
+            errorResponse = error
+            errorExpectation.fulfill()
+        })
+        waitForExpectations(timeout: 30) { (error) in
+            XCTAssertNotNil(errorResponse)
         }
     }
 }

@@ -31,14 +31,15 @@ final class MoviesAPIClient {
         network!.request(moviesRequestData) { data, response, error in
             
             if error != nil {
-            }
+                failure(error)
+            }else{
             
             if let response = response as? HTTPURLResponse {
                 let result = self.handleNetworkResponse(response)
                 switch result {
                 case .success:
                     guard let responseData = data else {
-//                       failure()
+                       failure(error)
                         return
                     }
                     do {
@@ -54,6 +55,7 @@ final class MoviesAPIClient {
                 case .failure(let networkFailureError):
                     failure(networkFailureError as? Error)
                 }
+            }
             }
         }
     }

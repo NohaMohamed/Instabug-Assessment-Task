@@ -36,8 +36,7 @@ class AssessmentTaskUITests: XCTestCase {
         let addButtonExist = addButton.waitForExistence(timeout: 5)
         if addButtonExist {
             addButton.tap()
-            addButton.navigationBars["Assessment_Task.MovieDetailsView"].buttons["done"].tap()
-            
+                        addButton.navigationBars["Assessment_Task.MovieDetailsView"].buttons["done"].tap()
         }
         
     
